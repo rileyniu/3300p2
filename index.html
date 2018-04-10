@@ -103,7 +103,7 @@
 
 <p id=“project1”> 
 
-<svg height="500" width="1100" id="map"> </svg>
+<svg style="display: block; margin: auto" height="600" width="1100" id="map"> </svg>
 <script>
 var svg = d3.select(map);
                 
@@ -143,21 +143,23 @@ d3.json("MAINDATA.json", function (error, data) {
 
 	var latitudeScale = d3.scaleLinear()
 		.domain(latitudeExtent)
-		.range([450, 50]);
+		.range([550, 50]);
 
 	var populationExtent = d3.extent(countryStats1, function (d) { 
 		return d.stats[2];
 	});
 
-	var populationScale = d3.scaleLog()
+	var populationScale = d3.scaleSqrt()
 		.domain(populationExtent)
-		.range([0, 25]);
+		.range([10, 80]);
 
 	var circles = svg.selectAll("circle").data(countryStats1);
 		circles = circles.enter().append("circle")
 			.style("fill", "#34CCFF")
 			.style("opacity", 0.5)
 			.merge(circles)
+
+    console.log(countryStats);
 
 		circles.on("click", function(d) {
 			console.log(d.country)
