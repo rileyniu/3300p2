@@ -115,13 +115,23 @@ d3.json("MAINDATA.json", function (error, data) {
 	var countryStats = {};
 
 	refugeeData.forEach(function (d) {
-		if (!(d.destinationCountry in countryStats)) {
+
+        //COMMENT THIS OUT TO SEE THE PATHS
+        // if (!(d.originCountry in countryStats)){
+        //     if ((d.latitude != null) && (d.longitude != null) && (d.population !=null)) {
+        //         countryStats[d.originCountry] = [d.longitude, d.latitude, d.population];
+        //     }
+        // }
+		if (!(d.destinationCountry in countryStats)){
 			if ((d.latitude != null) && (d.longitude != null) && (d.population !=null)) {
-				countryStats[d.destinationCountry] = [d.longitude, d.latitude, d.population]
+				countryStats[d.destinationCountry] = [d.longitude, d.latitude, d.population];
 			}
 		}
+        
+
 	})
 
+    //country representation as circles
 	var countryList = Object.keys(countryStats)
 	
 	countryStats1 = []
@@ -153,29 +163,98 @@ d3.json("MAINDATA.json", function (error, data) {
 		.domain(populationExtent)
 		.range([10, 80]);
 
-	var circles = svg.selectAll("circle").data(countryStats1);
+
+    // var mouseover = function(d){
+        
+    // };
+
+    // var mouseout = function(d) {
+    
+    // };
+
+    console.log(countryStats1);
+
+	var circles = svg.append('g')
+                .selectAll("circle").data(countryStats1);
 		circles = circles.enter().append("circle")
 			.style("fill", "#34CCFF")
 			.style("opacity", 0.5)
 			.merge(circles)
+            // .on("mouseover", mouseover)
+            // .on("mouseout", mouseout);
 
-    console.log(countryStats);
 
-		circles.on("click", function(d) {
-			console.log(d.country)
-		});
 
-		circles.attr("cx", function(d) {
-			return longitudeScale(d.stats[0])
-		});
+	circles.on("click", function(d) {
+	   console.log(d.country);
+  //       console.log(longitudeScale(d.stats[0]));
+  //       console.log(latitudeScale(d.stats[1]));
+	});
 
-		circles.attr("cy", function(d) {
-			return latitudeScale(d.stats[1])
-		});
-				    	
-		circles.attr("r", function(d) {
-			return populationScale(d.stats[2])
-		});
+	circles.attr("cx", function(d) {
+		return longitudeScale(d.stats[0])
+	});
+
+	circles.attr("cy", function(d) {
+		return latitudeScale(d.stats[1])
+	});
+			    	
+	circles.attr("r", function(d) {
+		return populationScale(d.stats[2])
+	});
+
+
+    //console.log(refugeeData);
+    //console.log(countryStats1);
+
+    //paths between country nodes, representing refugee flow
+    var links = [];
+    for (var i = 0; i < refugeeData.length; i++){
+       links.push({"year": refugeeData[i].year, "source": refugeeData[i].originCountry, "target": refugeeData[i].destinationCountry});
+    }
+
+
+    var nodelinks = links.filter(function(link){
+        return link.year == 1995 && link.source!= "Various/Unknown" && link.target !="Various/Unknown";
+      });
+
+
+    //console.log(nodelinks);
+    
+    var nodelinks1 = nodelinks.filter(function(link){
+        for(var i = 0; i < countryStats1.length; i++) {
+            countryStats1[i].country == link.source || countryStats1[i].country == link.target;
+        }
+      });
+
+//console.log(nodelinks1);
+
+    var long = function (d){
+        var info = countryStats1.filter(function(n){return n.country == d;});
+        return info[0].stats[0];
+    }
+
+
+    var lat = function (d){
+        var info = countryStats1.filter(function(n){return n.country == d;});
+        return info[0].stats[1];
+    }
+
+    // console.log(longitudeScale(long("China")));
+    // console.log(latitudeScale(lat("China")));
+
+    var edgeSelection = svg.selectAll("line")
+    .data(nodelinks)
+    .enter().append("line")
+    .attr("stroke", "#ddd")
+    .attr('x1', function(d) { return longitudeScale(long(d.source)); })
+    .attr('y1', function(d) { return latitudeScale(lat(d.source)); })
+    .attr('x2', function(d) { return longitudeScale(long(d.target)); })
+    .attr('y2', function(d) { return latitudeScale(lat(d.target)); });
+
+    
+
+
 
 
 })	
