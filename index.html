@@ -1,0 +1,192 @@
+<html>
+	<head>
+		<title> djm453, xz293, hn263 </title>
+		<meta charset="utf-8">
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Rajdhani|Rubik+Mono+One" rel="stylesheet">
+		<style>
+            h1 {font-family: 'Rubik Mono One', sans-serif;
+                font-size: 24px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 200;
+                line-height: 26px;
+                display: flex;
+                justify-content: center;
+                position: fixed;
+                color: #C1C1C1;
+                
+            }
+            h2 {font-family: 'Rajdhani', sans-serif;
+                font-size: 14px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 80;
+                line-height: 18px;
+                text-align: right;
+                padding-top: 15px;
+                padding-right: 15px;
+                color: #C1C1C1;
+            }
+            h3 {font-family: 'Rajdhani', sans-serif;
+                font-size: 14px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 80;
+                line-height: 18px;
+                text-align: right;
+                padding-right: 15px;
+                color: #C1C1C1;
+            }
+            h4 {font-family: 'Rajdhani', sans-serif;
+            	font-size: 14px;
+            	font-style: normal;
+            	font-variant: normal;
+            	font-weight: 80;
+            	line-height: 18px;
+            	text-align: left;
+            	padding-left: 35px;
+            	color: #8C8C8B;
+            }
+			body {font-family: 'Rajdhani', sans-serif; 
+                text-anchor: 'middle';
+                dominant-baseline: 'central';
+                background: #2B2727;
+            }
+            .legendSize circle {
+                fill: #CE7602;
+                opacity: 0.2;
+            }
+            .legendSize text {
+                font-size: 11px;
+                fill: #8C8C8B;
+            }
+            .textstyle1 {
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 11px;
+                font-style: normal;
+                fill: #8C8C8B;
+            }
+            .textstyle2 {
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 11px;
+                font-style: normal;
+                fill: #C1C1C1;
+            }
+            .textstyle3 {
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 11px;
+                font-style: italic;
+                fill: #8C8C8B;
+            }
+            p#footnotes {
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 12px;
+                font-style: normal;
+                color: #8C8C8B;
+            }
+            a {
+                text-decoration: none;
+                color: #C1C1C1;
+            }
+		</style>
+	</head>
+
+	<body>
+		<h1>Refugee Movement through Time</h1>
+        <h2>CS 3300 PROJECT 2</h2>
+        <h3>Danyal Motiwalla (djm453)
+        <br>Riley Niu (hn263)
+        <br>& Xinyu Cynthia Zhao (xz293)</h3>
+        
+
+<p id=“project1”> 
+
+<svg height="500" width="1100" id="map"> </svg>
+<script>
+var svg = d3.select(map);
+                
+var rawData;
+var refugeeData;
+
+d3.json("MAINDATA.json", function (error, data) {
+	refugeeData = data;
+	var countryStats = {};
+
+	refugeeData.forEach(function (d) {
+		if (!(d.destinationCountry in countryStats)) {
+			if ((d.latitude != null) && (d.longitude != null) && (d.population !=null)) {
+				countryStats[d.destinationCountry] = [d.longitude, d.latitude, d.population]
+			}
+		}
+	})
+
+	var countryList = Object.keys(countryStats)
+	
+	countryStats1 = []
+	for (i = 0; i < countryList.length; i++) {
+		countryStats1.push({"country": countryList[i], "stats": countryStats[countryList[i]]})
+	}
+
+	var longitudeExtent = d3.extent(countryStats1, function (d) { 
+		return d.stats[0];
+	});
+
+	var longitudeScale = d3.scaleLinear()
+		.domain(longitudeExtent)
+		.range([50, 1050]);
+
+	var latitudeExtent = d3.extent(countryStats1, function (d) { 
+		return d.stats[1];
+	});
+
+	var latitudeScale = d3.scaleLinear()
+		.domain(latitudeExtent)
+		.range([450, 50]);
+
+	var populationExtent = d3.extent(countryStats1, function (d) { 
+		return d.stats[2];
+	});
+
+	var populationScale = d3.scaleLog()
+		.domain(populationExtent)
+		.range([0, 25]);
+
+	var circles = svg.selectAll("circle").data(countryStats1);
+		circles = circles.enter().append("circle")
+			.style("fill", "#34CCFF")
+			.style("opacity", 0.5)
+			.merge(circles)
+
+		circles.on("click", function(d) {
+			console.log(d.country)
+		});
+
+		circles.attr("cx", function(d) {
+			return longitudeScale(d.stats[0])
+		});
+
+		circles.attr("cy", function(d) {
+			return latitudeScale(d.stats[1])
+		});
+				    	
+		circles.attr("r", function(d) {
+			return populationScale(d.stats[2])
+		});
+
+
+})	
+		
+
+
+</script>
+</p>
+
+<p id="footnotes">
+SOURCES:
+<br>Population data was retreived from <a href="https://data.worldbank.org/indicator/SP.POP.TOTL">World Bank World Development Indicators (2016)</a> and <a href="https://esa.un.org/unpd/wpp/DataQuery/">UN Population Division, World Population Prospects (2016)</a>.
+<br>Fonts used are <a href="https://fonts.google.com/specimen/Rubik+Mono+One">Rubik Mono One</a> by Hubert and Fischer and <a href="https://fonts.google.com/specimen/Rajdhani">Rajdhani</a> by Indian Type Foundry, from Google Fonts.
+</p>
+</body>
+</html>
