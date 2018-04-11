@@ -16,7 +16,7 @@
                 justify-content: center;
                 position: fixed;
                 color: #C1C1C1;
-                
+
             }
             h2 {font-family: 'Rajdhani', sans-serif;
                 font-size: 14px;
@@ -49,7 +49,7 @@
             	padding-left: 35px;
             	color: #8C8C8B;
             }
-			body {font-family: 'Rajdhani', sans-serif; 
+			body {font-family: 'Rajdhani', sans-serif;
                 text-anchor: 'middle';
                 dominant-baseline: 'central';
                 background: #2B2727;
@@ -90,6 +90,36 @@
                 text-decoration: none;
                 color: #C1C1C1;
             }
+						#map {
+								margin-left: 60px;
+								margin-top: -300px;
+						}
+						input[type=range].vVertical {
+    					-webkit-appearance: none;
+    					background-color: rgba(255, 255, 255, 0);
+							border-style: solid;
+							border-color: rgba(255, 255, 255, 0.4);
+    					width: 550px;
+    					height:15px;
+    					margin-top: 400px;
+							margin-left: -250px;
+      				-webkit-transform:rotate(90deg);
+    					-moz-transform:rotate(90deg);
+    					-o-transform:rotate(90deg);
+    					-ms-transform:rotate(90deg);
+    					transform:rotate(90deg);
+    					z-index: 0;
+							display: inline-block;
+							border-radius: 5px;
+						}
+
+						input[type="range"]::-webkit-slider-thumb {
+						    -webkit-appearance: none;
+						    background-color: gray;
+						    width: 30px;
+						    height: 30px;
+								border-radius: 20px;
+						}
 		</style>
 	</head>
 
@@ -99,14 +129,16 @@
         <h3>Danyal Motiwalla (djm453)
         <br>Riley Niu (hn263)
         <br>& Xinyu Cynthia Zhao (xz293)</h3>
-        
 
-<p id=“project1”> 
 
-<svg style="display: block; margin: auto" height="600" width="1100" id="map"> </svg>
+<p id=“project1”>
+<input type="range" class="vVertical" min=1995 max=2016 steps=22/>
+<!-- <svg style="display: inline;" height="600" width = "50"></svg> -->
+<svg style="display: inline-block;" height="600" width="1100" id="map"> </svg>
+
 <script>
 var svg = d3.select(map);
-                
+
 var rawData;
 var refugeeData;
 
@@ -127,19 +159,19 @@ d3.json("MAINDATA.json", function (error, data) {
 				countryStats[d.destinationCountry] = [d.longitude, d.latitude, d.population];
 			}
 		}
-        
+
 
 	})
 
     //country representation as circles
 	var countryList = Object.keys(countryStats)
-	
+
 	countryStats1 = []
 	for (i = 0; i < countryList.length; i++) {
 		countryStats1.push({"country": countryList[i], "stats": countryStats[countryList[i]]})
 	}
 
-	var longitudeExtent = d3.extent(countryStats1, function (d) { 
+	var longitudeExtent = d3.extent(countryStats1, function (d) {
 		return d.stats[0];
 	});
 
@@ -147,7 +179,7 @@ d3.json("MAINDATA.json", function (error, data) {
 		.domain(longitudeExtent)
 		.range([50, 1050]);
 
-	var latitudeExtent = d3.extent(countryStats1, function (d) { 
+	var latitudeExtent = d3.extent(countryStats1, function (d) {
 		return d.stats[1];
 	});
 
@@ -155,7 +187,7 @@ d3.json("MAINDATA.json", function (error, data) {
 		.domain(latitudeExtent)
 		.range([550, 50]);
 
-	var populationExtent = d3.extent(countryStats1, function (d) { 
+	var populationExtent = d3.extent(countryStats1, function (d) {
 		return d.stats[2];
 	});
 
@@ -165,14 +197,14 @@ d3.json("MAINDATA.json", function (error, data) {
 
 
     // var mouseover = function(d){
-        
+
     // };
 
     // var mouseout = function(d) {
-    
+
     // };
 
-    console.log(countryStats1);
+    console.log(refugeeData);
 
 	var circles = svg.append('g')
                 .selectAll("circle").data(countryStats1);
@@ -198,14 +230,12 @@ d3.json("MAINDATA.json", function (error, data) {
 	circles.attr("cy", function(d) {
 		return latitudeScale(d.stats[1])
 	});
-			    	
+
 	circles.attr("r", function(d) {
 		return populationScale(d.stats[2])
 	});
 
 
-    //console.log(refugeeData);
-    //console.log(countryStats1);
 
     //paths between country nodes, representing refugee flow
     var links = [];
@@ -220,7 +250,7 @@ d3.json("MAINDATA.json", function (error, data) {
 
 
     //console.log(nodelinks);
-    
+
     var nodelinks1 = nodelinks.filter(function(link){
         for(var i = 0; i < countryStats1.length; i++) {
             countryStats1[i].country == link.source || countryStats1[i].country == link.target;
@@ -251,14 +281,8 @@ d3.json("MAINDATA.json", function (error, data) {
     .attr('y1', function(d) { return latitudeScale(lat(d.source)); })
     .attr('x2', function(d) { return longitudeScale(long(d.target)); })
     .attr('y2', function(d) { return latitudeScale(lat(d.target)); });
+})
 
-    
-
-
-
-
-})	
-		
 
 
 </script>
