@@ -200,7 +200,7 @@ function callback (error, rawCountry, rawRefugee) {
 
 	var populationScale = d3.scaleSqrt()
 		.domain(populationExtent)
-		.range([10, 80]);
+		.range([15, 90]);
 
 
     // var mouseover = function(d){
@@ -225,9 +225,8 @@ function callback (error, rawCountry, rawRefugee) {
 
 
 	circles.on("click", function(d) {
+        d3.select(this).attr("opacity", 1);
 	   console.log(d.country);
-  //       console.log(longitudeScale(d.stats[0]));
-  //       console.log(latitudeScale(d.stats[1]));
 	});
 
 	circles.attr("cx", function(d) {
@@ -277,17 +276,35 @@ function callback (error, rawCountry, rawRefugee) {
         return info[0].latitude;
     }
 
-    // console.log(longitudeScale(long("China")));
-    // console.log(latitudeScale(lat("China")));
+// Straight paths
+    // var edgeSelection = svg.selectAll("line")
+    // .data(nodelinks)
+    // .enter().append("line")
+    // .attr("stroke", "#ddd")
+    // .style("fill", "#34CCFF")
+    // .style("opacity", 0.2)
+    // .attr('x1', function(d) { return longitudeScale(long(d.source)); })
+    // .attr('y1', function(d) { return latitudeScale(lat(d.source)); })
+    // .attr('x2', function(d) { return longitudeScale(long(d.target)); })
+    // .attr('y2', function(d) { return latitudeScale(lat(d.target)); });
 
-    var edgeSelection = svg.selectAll("line")
+//curved lines
+    var edgeSelection = svg.selectAll("path")
     .data(nodelinks)
-    .enter().append("line")
+    .enter().append("path")
+    .attr("d", function(d) {
+        var sx = longitudeScale(long(d.source)),
+            sy = latitudeScale(lat(d.source)),
+            tx = longitudeScale(long(d.target)),
+            ty = latitudeScale(lat(d.target));
+        var dx = tx- sx,
+            dy = ty - sy,
+            dr = Math.sqrt(dx * dx + dy * dy);
+        return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
+     })
     .attr("stroke", "#ddd")
-    .attr('x1', function(d) { return longitudeScale(long(d.source)); })
-    .attr('y1', function(d) { return latitudeScale(lat(d.source)); })
-    .attr('x2', function(d) { return longitudeScale(long(d.target)); })
-    .attr('y2', function(d) { return latitudeScale(lat(d.target)); });
+    .style("opacity", 0.2)
+    .style("fill","none");
 }
 
 
