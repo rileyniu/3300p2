@@ -1,0 +1,223 @@
+country,latitude,longitude,population
+Albania,41,20,2876101
+Algeria,28,3,40606052
+Aruba,12.5,-69.9667,104822
+American Samoa,-14.3333,-170,55599
+Afghanistan,33,65,34656032
+Andorra,42.5,1.6,77281
+Angola,-12.5,18.5,28813463
+Antigua and Barbuda,17.05,-61.8,100963
+Argentina,-34,-64,43847430
+United Arab Emirates,24,54,9269612
+Armenia,40,45,2924816
+Australia,-27,133,24127159
+Austria,47.3333,13.3333,8747358
+Azerbaijan,40.5,47.5,9762274
+Bahamas,24.25,-76,391232
+Bahrain,26,50.55,1425171
+Bangladesh,24,90,162951560
+Burundi,-3.5,30,10524117
+Barbados,13.1667,-59.5333,284996
+Belgium,50.8333,4,11348159
+Belarus,53,28,9507120
+Benin,9.5,2.25,10872298
+Burkina Faso,13,-2,18646433
+Belize,17.25,-88.75,366954
+Bulgaria,43,25,7127822
+Bermuda,32.3333,-64.75,65331
+Bhutan,27.5,90.5,797765
+Bolivia,-17,-65,10887882
+Bosnia and Herzegovina,44,18,3516816
+Botswana,-22,24,2250260
+Brazil,-10,-55,207652865
+Brunei Darussalam,4.5,114.6667,423196
+Cambodia,13,105,15762370
+Cameroon,6,12,23439189
+Canada,60,-95,36286425
+Central African Republic,7,21,4594621
+Cayman Islands,19.5,-80.5,60765
+Switzerland,47,8,8372098
+Chile,-30,-71,17909754
+China,35,105,1378665000
+Colombia,4,-72,48653419
+Comoros,-12.1667,44.25,795601
+Cote d'Ivoire,8,-5,23695919
+Congo,-1,15,5125821
+Democratic Republic of the Congo,0,25,78736153
+Costa Rica,10,-84,4857274
+Croatia,45.1667,15.5,4170600
+Cabo Verde,,,539560
+Cuba,21.5,-80,11475982
+Cyprus,35,33,1170125
+Czech Republic,49.75,15.5,10561633
+Democratic People's Republic of Korea,40,127,25368620
+Curacao,,,159999
+Denmark,56,10,5731118
+Djibouti,11.5,43,942333
+Dominica,15.4167,-61.3333,73543
+Dominican Republic,19,-70.6667,10648791
+Germany,51,9,82667685
+Ecuador,-2,-77.5,16385068
+Egypt,27,30,95688681
+El Salvador,13.8333,-88.9167,6344722
+Equatorial Guinea,2,10,1221490
+Eritrea,15,39,
+Estonia,59,26,1316481
+Ethiopia,8,38,102403196
+Federated States of Micronesia,6.9167,158.25,104937
+Fiji,-18,175,898760
+Finland,64,26,5495096
+France,46,2,66896109
+French Polynesia,-15,-140,280208
+Gabon,-1,11.75,1979786
+Gambia,13.4667,-16.5667,2038501
+Spain,40,-4,46443959
+Georgia,42,43.5,3719300
+Ghana,8,-2,28206728
+Gibraltar,36.1833,-5.3667,34408
+Greece,39,22,10746740
+Grenada,12.1167,-61.6667,107317
+Guatemala,15.5,-90.25,16582469
+Guinea,11,-10,12395924
+Guinea-Bissau,12,-15,1815698
+Guyana,5,-59,773303
+United Kingdom,54,-2,65637239
+Haiti,19,-72.4167,10847334
+Honduras,15,-86.5,9112867
+Hong Kong,22.25,114.1667,7346700
+Hungary,47,20,9817958
+Iceland,65,-18,334252
+India,20,77,1324171354
+Indonesia,-5,120,261115456
+Iran,32,53,80277428
+Iraq,33,44,37202572
+Ireland,53,-8,4773095
+Israel,31.5,34.75,8547100
+Italy,42.8333,12.8333,60600590
+Jamaica,18.25,-77.5,2881355
+Japan,36,138,126994511
+Jordan,31,36,9455802
+Kazakhstan,48,68,17797032
+Kenya,1,38,48461567
+Kiribati,1.4167,173,114395
+Kuwait,29.3375,47.6581,4052584
+Kyrgyzstan,41,75,6082700
+Lao People's Democratic Republic,18,105,6758353
+Latvia,57,25,1960424
+Lebanon,33.8333,35.8333,6006668
+Lesotho,-29.5,28.5,2203821
+Liberia,6.5,-9.5,4613823
+Libya,25,17,6293253
+Liechtenstein,47.1667,9.5333,37666
+South Korea,37,127.5,51245707
+Lithuania,56,24,2872298
+Luxembourg,49.75,6.1667,582972
+Macao,22.1667,113.55,612167
+Madagascar,-20,47,24894551
+Malawi,-13.5,34,18091575
+Malaysia,2.5,112.5,31187265
+Maldives,3.25,73,417492
+Mali,17,-4,17994837
+Malta,35.8333,14.5833,436947
+Marshall Islands,9,168,53066
+Mauritania,20,-12,4301018
+Mauritius,-20.2833,57.55,1263473
+The former Yugoslav Republic of Macedonia,41.8333,22,2081206
+Mexico,23,-102,127540423
+Saint Kitts and Nevis,17.3333,-62.75,54821
+Moldova,47,29,3552000
+Monaco,43.7333,7.4,38499
+Mongolia,46,105,3027398
+Montenegro,42,19,622781
+Morocco,32,-5,35276786
+Mozambique,-18.25,35,28829476
+Myanmar,22,98,52885223
+Namibia,-22,17,2479713
+Saint Lucia,13.8833,-61.1333,178015
+Nauru,-0.5333,166.9167,13049
+Nepal,28,84,28982771
+Netherlands,52.5,5.75,17018408
+New Zealand,-41,174,4692700
+Nicaragua,13,-85,6149928
+Sri Lanka,7,81,21203000
+Niger,16,8,20672987
+Nigeria,10,8,185989640
+Norway,62,10,5232929
+Oman,21,57,4424762
+Pakistan,30,70,193203476
+Palau,7.5,134.5,21503
+Panama,9,-80,4034119
+Papua New Guinea,-6,147,8084991
+Paraguay,-23,-58,6725308
+Peru,-10,-76,31773839
+Philippines,13,122,103320222
+Poland,52,20,37948016
+Portugal,39.5,-8,10324611
+Puerto Rico,18.25,-66.5,3411307
+Qatar,25.5,51.25,2569804
+Romania,46,25,19705301
+Russian Federation,60,100,144342396
+Rwanda,-2,30,11917508
+San Marino,43.7667,12.4167,33203
+Sao Tome and Principe,1,7,199910
+Saudi Arabia,25,45,32275687
+Senegal,14,-14,15411614
+Serbia,44,21,7057412
+Sierra Leone,8.5,-11.5,7396190
+Singapore,1.3667,103.8,5607283
+Slovakia,48.6667,19.5,5428704
+Slovenia,46,15,2064845
+Solomon Islands,-8,159,599419
+Somalia,10,49,14317996
+Sudan,15,30,39578828
+Suriname,4,-56,558368
+Swaziland,-26.5,31.5,1343098
+Sweden,62,15,9903122
+South Sudan,,,12230730
+Sint Maarten (Dutch part),,,40005
+Seychelles,-4.5833,55.6667,94677
+Syria,35,38,18430453
+Turks and Caicos Islands,21.75,-71.5833,34900
+Chad,15,19,14452543
+Togo,8,1.1667,7606374
+Thailand,15,100,68863514
+Tajikistan,39,71,8734951
+Turkmenistan,40,60,5662544
+Timor-Leste,-8.55,125.5167,1268671
+Tonga,-20,-175,107122
+Trinidad and Tobago,11,-61,1364962
+Tunisia,34,9,11403248
+Turkey,39,35,79512426
+Tuvalu,-8,178,11097
+Tanzania,-6,35,55572201
+Uganda,1,32,41487965
+Ukraine,49,32,45004645
+Uruguay,-33,-56,3444006
+United States of America,38,-97,323127513
+Uzbekistan,41,64,31848200
+Venezuela,8,-66,31568179
+British Virgin Islands,18.5,-64.5,30661
+Vietnam,16,106,92701100
+Vanuatu,-16,167,270402
+Samoa,-13.5833,-172.3333,195125
+Yemen,15,48,27584213
+South Africa,-29,24,55908865
+Zambia,-15,30,16591390
+Zimbabwe,-20,30,16150362
+Anguilla,18.25,-63.1667,
+Cook Islands,-21.2333,-159.7667,
+French Guiana,4,-53,
+Guadeloupe,16.25,-61.5833,
+Holy See (Vatican City State),41.9,12.45,
+Martinique,14.6667,-61,
+Niue,-19.0333,-169.8667,
+Norfolk Island,-29.0333,167.95,
+Palestinian,32,35.25,
+Saint Pierre and Miquelon,46.8333,-56.3333,
+Saint Vincent and the Grenadines,13.25,-61.2,
+Svalbard and Jan Mayen,78,20,
+Western Sahara,24.5,-13,
+Stateless,,,
+Tibetan,,,
+Various/Unknown,,,
+Wallis and Futuna Islands ,,,
