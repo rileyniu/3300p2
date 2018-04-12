@@ -151,24 +151,6 @@ d3.queue()
 function callback (error, rawCountry, rawRefugee) {
 	refugeeData = rawRefugee;
     countryData = rawCountry;
-	var countryStats = {};
-
-	refugeeData.forEach(function (d) {
-
-        if (!(d.originCountry in countryStats)){
-            if ((d.originLatitude != null) && (d.originLongitude != null) && (d.originPopulation !=null)) {
-                countryStats[d.originCountry] = [d.originLongitude, d.originLatitude, d.originPopulation];
-            }
-        }
-		if (!(d.destinationCountry in countryStats)){
-			if ((d.destinationLatitude != null) && (d.destinationLongitude != null) && (d.destinationPopulation !=null)) {
-				countryStats[d.destinationCountry] = [d.destinationLongitude, d.destinationLatitude, d.destinationPopulation];
-			}
-		}
-
-
-	})
-
 
     //country representation as circles
 	// var countryList = Object.keys(countryStats)
@@ -200,7 +182,8 @@ function callback (error, rawCountry, rawRefugee) {
 
 	var populationScale = d3.scaleSqrt()
 		.domain(populationExtent)
-		.range([15, 90]);
+		.range([9, 75]);
+
 
 
     // var mouseover = function(d){
@@ -211,22 +194,19 @@ function callback (error, rawCountry, rawRefugee) {
 
     // };
 
-    //console.log(countryStats1);
 
 	var circles = svg.append('g')
                 .selectAll("circle").data(countryData);
 		circles = circles.enter().append("circle")
 			.style("fill", "#34CCFF")
-			.style("opacity", 0.5)
+			.style("opacity", 0.2)
 			.merge(circles)
             // .on("mouseover", mouseover)
             // .on("mouseout", mouseout);
 
-
-
 	circles.on("click", function(d) {
-        d3.select(this).attr("opacity", 1);
-	   console.log(d.country);
+        //d3.select(this).attr("opacity", 1);
+	   console.log(d);
 	});
 
 	circles.attr("cx", function(d) {
@@ -246,16 +226,32 @@ function callback (error, rawCountry, rawRefugee) {
     //paths between country nodes, representing refugee flow
     var links = [];
     for (var i = 0; i < refugeeData.length; i++){
-       links.push({"year": refugeeData[i].year, "source": refugeeData[i].originCountry, "target": refugeeData[i].destinationCountry});
+       links.push({"year": refugeeData[i].year, "number":refugeeData[i].refugeeNumber, "source": refugeeData[i].originCountry, "target": refugeeData[i].destinationCountry});
     }
 
 
     var nodelinks = links.filter(function(link){
-        return link.year == 1995 && link.source!= "Various/Unknown" && link.target !="Various/Unknown";
+        return link.year == 1995 && link.source!= "Various/Unknown" && link.target !="Various/Unknown" &&
+                link.number >10000;
       });
 
 
-    //console.log(nodelinks);
+
+    var refugeeNumExtent = d3.extent(nodelinks, function (d) {
+        return d.number;
+    });
+
+    var refugeeNumScale = d3.scaleSqrt()
+        .domain(refugeeNumExtent)
+        .range([1, 20]);
+
+    console.log(refugeeNumExtent);
+    var color = d3.scaleSqrt()
+    .domain(refugeeNumExtent)
+    .range(["#f2f0f7","#54278f"]);
+
+
+    console.log(nodelinks);
 
     // var nodelinks1 = nodelinks.filter(function(link){
     //     for(var i = 0; i < countryData.length; i++) {
@@ -302,9 +298,16 @@ function callback (error, rawCountry, rawRefugee) {
             dr = Math.sqrt(dx * dx + dy * dy);
         return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
      })
-    .attr("stroke", "#ddd")
-    .style("opacity", 0.2)
-    .style("fill","none");
+    // .attr("stroke", "#756bb1")
+    .attr("stroke", function(d) {
+        return color(d.number); 
+    })
+    .style("opacity", 0.8)
+    .style("fill", "none")
+    .style("stroke-width", function(d) { 
+                return refugeeNumScale(d.number);
+            });
+
 }
 
 
