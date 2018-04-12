@@ -120,12 +120,11 @@
         <h2>CS 3300 PROJECT 2</h2>
         <h3>Danyal Motiwalla (djm453)
         <br>Riley Niu (hn263)
-        <br>& Xinyu Cynthia Zhao (xz293)</h3>
+        <br> Xinyu Cynthia Zhao (xz293)</h3>
 
 
 <p id=“project1”>
-<div id="slider-vertical"></div><br><br>
-<!-- <svg style="display: inline;" height="600" width = "50"></svg> -->
+<div id="slider-vertical"></div><br>
 <svg height="600" width="1100" id="map"> </svg>
 
 <script>
@@ -178,58 +177,48 @@ var svg = d3.select(map);
 var rawData;
 var refugeeData;
 
-d3.json("MAINDATA.json", function (error, data) {
-	refugeeData = data;
-	var countryStats = {};
+d3.queue()
+.defer(d3.json, "countryData.json")
+.defer(d3.json, "refugeeData.json")
+.await(callback);
 
-	refugeeData.forEach(function (d) {
-
-        //COMMENT THIS OUT TO SEE THE PATHS
-        // if (!(d.originCountry in countryStats)){
-        //     if ((d.latitude != null) && (d.longitude != null) && (d.population !=null)) {
-        //         countryStats[d.originCountry] = [d.longitude, d.latitude, d.population];
-        //     }
-        // }
-		if (!(d.destinationCountry in countryStats)){
-			if ((d.latitude != null) && (d.longitude != null) && (d.population !=null)) {
-				countryStats[d.destinationCountry] = [d.longitude, d.latitude, d.population];
-			}
-		}
-
-
-	})
+// d3.json("refugeeData.json", function (error, data) {
+function callback (error, rawCountry, rawRefugee) {
+	refugeeData = rawRefugee;
+    countryData = rawCountry;
 
     //country representation as circles
-	var countryList = Object.keys(countryStats)
+	// var countryList = Object.keys(countryStats)
 
-	countryStats1 = []
-	for (i = 0; i < countryList.length; i++) {
-		countryStats1.push({"country": countryList[i], "stats": countryStats[countryList[i]]})
-	}
+	// countryStats1 = []
+	// for (i = 0; i < countryList.length; i++) {
+	// 	countryStats1.push({"country": countryList[i], "stats": countryStats[countryList[i]]})
+	// }
 
-	var longitudeExtent = d3.extent(countryStats1, function (d) {
-		return d.stats[0];
+	var longitudeExtent = d3.extent(countryData, function (d) {
+		return d.longitude;
 	});
 
 	var longitudeScale = d3.scaleLinear()
 		.domain(longitudeExtent)
 		.range([50, 1050]);
 
-	var latitudeExtent = d3.extent(countryStats1, function (d) {
-		return d.stats[1];
+	var latitudeExtent = d3.extent(countryData, function (d) {
+		return d.latitude;
 	});
 
 	var latitudeScale = d3.scaleLinear()
 		.domain(latitudeExtent)
 		.range([550, 50]);
 
-	var populationExtent = d3.extent(countryStats1, function (d) {
-		return d.stats[2];
+	var populationExtent = d3.extent(countryData, function (d) {
+		return d.population;
 	});
 
 	var populationScale = d3.scaleSqrt()
 		.domain(populationExtent)
-		.range([10, 80]);
+		.range([9, 75]);
+
 
 
     // var mouseover = function(d){
@@ -240,35 +229,31 @@ d3.json("MAINDATA.json", function (error, data) {
 
     // };
 
-    console.log(refugeeData);
 
 	var circles = svg.append('g')
-                .selectAll("circle").data(countryStats1);
+                .selectAll("circle").data(countryData);
 		circles = circles.enter().append("circle")
 			.style("fill", "#34CCFF")
-			.style("opacity", 0.5)
+			.style("opacity", 0.2)
 			.merge(circles)
             // .on("mouseover", mouseover)
             // .on("mouseout", mouseout);
 
-
-
 	circles.on("click", function(d) {
-	   console.log(d.country);
-  //       console.log(longitudeScale(d.stats[0]));
-  //       console.log(latitudeScale(d.stats[1]));
+        //d3.select(this).attr("opacity", 1);
+	   console.log(d);
 	});
 
 	circles.attr("cx", function(d) {
-		return longitudeScale(d.stats[0])
+		return longitudeScale(d.longitude)
 	});
 
 	circles.attr("cy", function(d) {
-		return latitudeScale(d.stats[1])
+		return latitudeScale(d.latitude)
 	});
 
 	circles.attr("r", function(d) {
-		return populationScale(d.stats[2])
+		return populationScale(d.population)
 	});
 
 
@@ -276,48 +261,89 @@ d3.json("MAINDATA.json", function (error, data) {
     //paths between country nodes, representing refugee flow
     var links = [];
     for (var i = 0; i < refugeeData.length; i++){
-       links.push({"year": refugeeData[i].year, "source": refugeeData[i].originCountry, "target": refugeeData[i].destinationCountry});
+       links.push({"year": refugeeData[i].year, "number":refugeeData[i].refugeeNumber, "source": refugeeData[i].originCountry, "target": refugeeData[i].destinationCountry});
     }
 
 
     var nodelinks = links.filter(function(link){
-        return link.year == 1995 && link.source!= "Various/Unknown" && link.target !="Various/Unknown";
+        return link.year == 1995 && link.source!= "Various/Unknown" && link.target !="Various/Unknown" &&
+                link.number >10000;
       });
 
 
-    //console.log(nodelinks);
 
-    var nodelinks1 = nodelinks.filter(function(link){
-        for(var i = 0; i < countryStats1.length; i++) {
-            countryStats1[i].country == link.source || countryStats1[i].country == link.target;
-        }
-      });
+    var refugeeNumExtent = d3.extent(nodelinks, function (d) {
+        return d.number;
+    });
+
+    var refugeeNumScale = d3.scaleSqrt()
+        .domain(refugeeNumExtent)
+        .range([1, 20]);
+
+    console.log(refugeeNumExtent);
+    var color = d3.scaleSqrt()
+    .domain(refugeeNumExtent)
+    .range(["#f2f0f7","#54278f"]);
+
+
+    console.log(nodelinks);
+
+    // var nodelinks1 = nodelinks.filter(function(link){
+    //     for(var i = 0; i < countryData.length; i++) {
+    //         countryData[i].country == link.source || countryStats1[i].country == link.target;
+    //     }
+    //   });
 
 //console.log(nodelinks1);
 
     var long = function (d){
-        var info = countryStats1.filter(function(n){return n.country == d;});
-        return info[0].stats[0];
+        var info = countryData.filter(function(n){return n.country == d;});
+        return info[0].longitude;
     }
 
 
     var lat = function (d){
-        var info = countryStats1.filter(function(n){return n.country == d;});
-        return info[0].stats[1];
+        var info = countryData.filter(function(n){return n.country == d;});
+        return info[0].latitude;
     }
 
-    // console.log(longitudeScale(long("China")));
-    // console.log(latitudeScale(lat("China")));
-
+// Straight paths
     // var edgeSelection = svg.selectAll("line")
     // .data(nodelinks)
     // .enter().append("line")
     // .attr("stroke", "#ddd")
+    // .style("fill", "#34CCFF")
+    // .style("opacity", 0.2)
     // .attr('x1', function(d) { return longitudeScale(long(d.source)); })
     // .attr('y1', function(d) { return latitudeScale(lat(d.source)); })
     // .attr('x2', function(d) { return longitudeScale(long(d.target)); })
     // .attr('y2', function(d) { return latitudeScale(lat(d.target)); });
-})
+
+//curved lines
+    var edgeSelection = svg.selectAll("path")
+    .data(nodelinks)
+    .enter().append("path")
+    .attr("d", function(d) {
+        var sx = longitudeScale(long(d.source)),
+            sy = latitudeScale(lat(d.source)),
+            tx = longitudeScale(long(d.target)),
+            ty = latitudeScale(lat(d.target));
+        var dx = tx- sx,
+            dy = ty - sy,
+            dr = Math.sqrt(dx * dx + dy * dy);
+        return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
+     })
+    // .attr("stroke", "#756bb1")
+    .attr("stroke", function(d) {
+        return color(d.number);
+    })
+    .style("opacity", 0.8)
+    .style("fill", "none")
+    .style("stroke-width", function(d) {
+                return refugeeNumScale(d.number);
+            });
+
+}
 
 
 
