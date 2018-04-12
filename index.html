@@ -4,7 +4,11 @@
 		<meta charset="utf-8">
 		<script src="https://d3js.org/d3.v4.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Rajdhani|Rubik+Mono+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rajdhani|Rubik+Mono+One" rel="stylesheet">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<style>
             h1 {font-family: 'Rubik Mono One', sans-serif;
                 font-size: 24px;
@@ -91,34 +95,22 @@
                 color: #C1C1C1;
             }
 						#map {
-								margin-left: 60px;
-								margin-top: -300px;
+								margin-top: 0px;
 						}
-						input[type=range].vVertical {
-    					-webkit-appearance: none;
-    					background-color: rgba(255, 255, 255, 0);
-							border-style: solid;
-							border-color: rgba(255, 255, 255, 0.4);
-    					width: 550px;
-    					height:15px;
-    					margin-top: 400px;
-							margin-left: -250px;
-      				-webkit-transform:rotate(90deg);
-    					-moz-transform:rotate(90deg);
-    					-o-transform:rotate(90deg);
-    					-ms-transform:rotate(90deg);
-    					transform:rotate(90deg);
-    					z-index: 0;
-							display: inline-block;
-							border-radius: 5px;
+						.ui-draggable, .ui-droppable {
+								background-position: top;
 						}
 
-						input[type="range"]::-webkit-slider-thumb {
-						    -webkit-appearance: none;
-						    background-color: gray;
-						    width: 30px;
-						    height: 30px;
-								border-radius: 20px;
+						#slider-vertical {
+							height:10px;
+							width:1000px;
+							margin: auto;
+							vertical-align: top;
+							background-color: rgba(43, 39, 39, 0.5);
+							border-style: solid;
+							border-color: rgb(188, 188, 188);
+							border-width: 2px;
+							border-radius: 10px;
 						}
 		</style>
 	</head>
@@ -132,11 +124,55 @@
 
 
 <p id=“project1”>
-<input type="range" class="vVertical" min=1995 max=2016 steps=22/>
+<div id="slider-vertical"></div><br><br>
 <!-- <svg style="display: inline;" height="600" width = "50"></svg> -->
-<svg style="display: inline-block;" height="600" width="1100" id="map"> </svg>
+<svg height="600" width="1100" id="map"> </svg>
 
 <script>
+
+$( function() {
+		$( "#slider-vertical" ).slider({
+			classes: {
+    "ui-slider": "highlight"
+  },
+			range: "min",
+			animate: "medium",
+			min: 1995,
+			max: 2017,
+			value: 2000,
+			slide: function( event, ui ) {
+				var fun = function () {$( "#amount" ).val( ui.value );};
+				setTimeout(fun, 5);
+			}
+		})
+
+.each(function() {
+  var vals = 22;
+
+  for (var i = 0; i <= vals ; i++) {
+      var tick = $('<div class="tick ui-widget-content"></div>').css('position', 'absolute')
+			.css('display', 'inline-block')
+			.css('left', (i/vals*100-0.1) +  '%')
+			.css('top', 100 +  '%')
+			.css('width', '2px')
+			.css('height', '16px')
+			.css('color', 'white');
+			$( "#slider-vertical" ).append(tick);
+  }
+
+	$( "#slider-vertical" ).append('<br>');
+
+  // Space out values
+  for (var i = 1995; i <= 2017; i+=2) {
+    var el = $('<label>'+(i)+'</label>').css('position', 'absolute')
+		.css('text-align', 'center').css('color', "white")
+		.css('left', ((i-1995)/vals*100-1.5)+'%').css("margin-top", "10px");
+
+		$( "#slider-vertical" ).append(el);
+  }
+
+});;
+	} );
 var svg = d3.select(map);
 
 var rawData;
@@ -273,14 +309,14 @@ d3.json("MAINDATA.json", function (error, data) {
     // console.log(longitudeScale(long("China")));
     // console.log(latitudeScale(lat("China")));
 
-    var edgeSelection = svg.selectAll("line")
-    .data(nodelinks)
-    .enter().append("line")
-    .attr("stroke", "#ddd")
-    .attr('x1', function(d) { return longitudeScale(long(d.source)); })
-    .attr('y1', function(d) { return latitudeScale(lat(d.source)); })
-    .attr('x2', function(d) { return longitudeScale(long(d.target)); })
-    .attr('y2', function(d) { return latitudeScale(lat(d.target)); });
+    // var edgeSelection = svg.selectAll("line")
+    // .data(nodelinks)
+    // .enter().append("line")
+    // .attr("stroke", "#ddd")
+    // .attr('x1', function(d) { return longitudeScale(long(d.source)); })
+    // .attr('y1', function(d) { return latitudeScale(lat(d.source)); })
+    // .attr('x2', function(d) { return longitudeScale(long(d.target)); })
+    // .attr('y2', function(d) { return latitudeScale(lat(d.target)); });
 })
 
 
