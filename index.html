@@ -95,7 +95,8 @@
                 color: #C1C1C1;
             }
 						#map {
-								margin-top: 0px;
+								margin: auto;
+								display: inline-block;
 						}
 						.ui-draggable, .ui-droppable {
 								background-position: top;
@@ -117,15 +118,11 @@
 
 	<body>
 		<h1>Refugee Movement through Time</h1>
-        <h2>CS 3300 PROJECT 2</h2>
-        <h3>Danyal Motiwalla (djm453)
-        <br>Riley Niu (hn263)
-        <br> Xinyu Cynthia Zhao (xz293)</h3>
-
+		<br><br><br>
 
 <p id=“project1”>
 <div id="slider-vertical"></div><br>
-<svg height="600" width="1100" id="map"> </svg>
+<svg height="600" width="1060" id="map"> </svg>
 
 <script>
 
@@ -137,7 +134,7 @@ $( function() {
 			range: "min",
 			animate: "medium",
 			min: 1995,
-			max: 2017,
+			max: 2016,
 			value: 2000,
 			slide: function( event, ui ) {
 				var fun = function () {$( "#amount" ).val( ui.value );};
@@ -146,7 +143,7 @@ $( function() {
 		})
 
 .each(function() {
-  var vals = 22;
+  var vals = 21;
 
   for (var i = 0; i <= vals ; i++) {
       var tick = $('<div class="tick ui-widget-content"></div>').css('position', 'absolute')
@@ -162,7 +159,7 @@ $( function() {
 	$( "#slider-vertical" ).append('<br>');
 
   // Space out values
-  for (var i = 1995; i <= 2017; i+=2) {
+  for (var i = 1995; i <= 2016; i+=2) {
     var el = $('<label>'+(i)+'</label>').css('position', 'absolute')
 		.css('text-align', 'center').css('color', "white")
 		.css('left', ((i-1995)/vals*100-1.5)+'%').css("margin-top", "10px");
@@ -170,36 +167,112 @@ $( function() {
 		$( "#slider-vertical" ).append(el);
   }
 
-});;
+});
+	$( "#slider-vertical" ).on("slidechange", function(event, ui) {
+				endPos = ui.value;
+				var svg = d3.select(map);
+			  drawLines(endPos, true);
+
+		});
 	} );
 var svg = d3.select(map);
 
 var rawData;
 var refugeeData;
+var countries;
+var countries;
+var links = [];
+
+var dur = 500;
 
 d3.queue()
 .defer(d3.json, "countryData.json")
 .defer(d3.json, "refugeeData.json")
 .await(callback);
 
-// d3.json("refugeeData.json", function (error, data) {
+var latitudeScale;
+var longitudeScale;
+var color;
+
+//Get latitude of a country
+function latFun(d){
+		var info = countryData.filter(function(n){return n.country == d;});
+		return info[0].latitude;
+}
+
+//Get longitude of a country
+function longiFun(d){
+			var info = countryData.filter(function(n){return n.country == d;});
+			return info[0].longitude;
+}
+
+//Function called when mouse hovers over circle
+function mouseOverCircle(d) {
+	var connected = [];
+
+	//Makes all paths with destination country matching country hovered opaque.
+	d3.selectAll("path").filter(function(p){
+		if(p.target == d.country){
+			connected.push(p.source);
+			return true;
+		}
+		else {
+			return false;
+		}
+	})
+	.transition().duration(dur)
+	.style("opacity", 1.0);
+
+	//Makes all origin countries connected to highlighted destination country opaque
+	d3.selectAll("circle").filter(function(c){
+		return connected.includes(c.country);
+	}).transition().duration(dur).style("opacity", 0.8);
+
+	//Makes all countries not connected to highlighted destination country less opaque
+	d3.selectAll("circle").filter(function(c){
+		return !connected.includes(c.country);
+	}).transition().duration(dur).style("opacity", 0.1);
+
+	//Makes highlighted country opaque
+	d3.select(this).transition().duration(dur).style("opacity", 0.8);
+
+	//Makes all paths not connected to highlighted country less opaque
+	d3.selectAll("path").filter(function(p){
+		if(p.target == d.country){
+			return false;
+		}
+		else {
+			return true;
+		}
+	})
+	.transition().duration(dur)
+	.style("opacity", 0.3);
+}
+
+//Function called when mouse hovers exists circle
+function mouseOutCircle (d) {
+	//Makes all circles original opacity
+	d3.selectAll("circle").transition().duration(dur).style("opacity", 0.2);
+
+	//Makes all paths original opacity
+	d3.selectAll("path")
+	.transition().duration(dur)
+	.style("opacity", 0.8);
+}
+
 function callback (error, rawCountry, rawRefugee) {
 	refugeeData = rawRefugee;
-    countryData = rawCountry;
+  countryData = rawCountry.filter(function (c) {
+		return c.latitude !== null && c.longitude !== null && c.population !== null;
+	});
 
-    //country representation as circles
-	// var countryList = Object.keys(countryStats)
-
-	// countryStats1 = []
-	// for (i = 0; i < countryList.length; i++) {
-	// 	countryStats1.push({"country": countryList[i], "stats": countryStats[countryList[i]]})
-	// }
+	countries = countryData.map(c => c.country);
 
 	var longitudeExtent = d3.extent(countryData, function (d) {
 		return d.longitude;
 	});
 
-	var longitudeScale = d3.scaleLinear()
+	longitudeScale = d3.scaleLinear()
 		.domain(longitudeExtent)
 		.range([50, 1050]);
 
@@ -207,7 +280,7 @@ function callback (error, rawCountry, rawRefugee) {
 		return d.latitude;
 	});
 
-	var latitudeScale = d3.scaleLinear()
+	latitudeScale = d3.scaleLinear()
 		.domain(latitudeExtent)
 		.range([550, 50]);
 
@@ -220,29 +293,14 @@ function callback (error, rawCountry, rawRefugee) {
 		.range([9, 75]);
 
 
-
-    // var mouseover = function(d){
-
-    // };
-
-    // var mouseout = function(d) {
-
-    // };
-
-
 	var circles = svg.append('g')
                 .selectAll("circle").data(countryData);
 		circles = circles.enter().append("circle")
 			.style("fill", "#34CCFF")
-			.style("opacity", 0.2)
+			.style("opacity", 0.3)
 			.merge(circles)
-            // .on("mouseover", mouseover)
-            // .on("mouseout", mouseout);
-
-	circles.on("click", function(d) {
-        //d3.select(this).attr("opacity", 1);
-	   console.log(d);
-	});
+      .on("mouseover", mouseOverCircle)
+			.on("mouseout", mouseOutCircle);
 
 	circles.attr("cx", function(d) {
 		return longitudeScale(d.longitude)
@@ -256,96 +314,68 @@ function callback (error, rawCountry, rawRefugee) {
 		return populationScale(d.population)
 	});
 
-
-
-    //paths between country nodes, representing refugee flow
-    var links = [];
-    for (var i = 0; i < refugeeData.length; i++){
-       links.push({"year": refugeeData[i].year, "number":refugeeData[i].refugeeNumber, "source": refugeeData[i].originCountry, "target": refugeeData[i].destinationCountry});
-    }
-
-
-    var nodelinks = links.filter(function(link){
-        return link.year == 1995 && link.source!= "Various/Unknown" && link.target !="Various/Unknown" &&
-                link.number >10000;
-      });
-
-
-
-    var refugeeNumExtent = d3.extent(nodelinks, function (d) {
-        return d.number;
-    });
-
-    var refugeeNumScale = d3.scaleSqrt()
-        .domain(refugeeNumExtent)
-        .range([1, 20]);
-
-    console.log(refugeeNumExtent);
-    var color = d3.scaleSqrt()
-    .domain(refugeeNumExtent)
-    .range(["#f2f0f7","#54278f"]);
-
-
-    console.log(nodelinks);
-
-    // var nodelinks1 = nodelinks.filter(function(link){
-    //     for(var i = 0; i < countryData.length; i++) {
-    //         countryData[i].country == link.source || countryStats1[i].country == link.target;
-    //     }
-    //   });
-
-//console.log(nodelinks1);
-
-    var long = function (d){
-        var info = countryData.filter(function(n){return n.country == d;});
-        return info[0].longitude;
-    }
-
-
-    var lat = function (d){
-        var info = countryData.filter(function(n){return n.country == d;});
-        return info[0].latitude;
-    }
-
-// Straight paths
-    // var edgeSelection = svg.selectAll("line")
-    // .data(nodelinks)
-    // .enter().append("line")
-    // .attr("stroke", "#ddd")
-    // .style("fill", "#34CCFF")
-    // .style("opacity", 0.2)
-    // .attr('x1', function(d) { return longitudeScale(long(d.source)); })
-    // .attr('y1', function(d) { return latitudeScale(lat(d.source)); })
-    // .attr('x2', function(d) { return longitudeScale(long(d.target)); })
-    // .attr('y2', function(d) { return latitudeScale(lat(d.target)); });
-
-//curved lines
-    var edgeSelection = svg.selectAll("path")
-    .data(nodelinks)
-    .enter().append("path")
-    .attr("d", function(d) {
-        var sx = longitudeScale(long(d.source)),
-            sy = latitudeScale(lat(d.source)),
-            tx = longitudeScale(long(d.target)),
-            ty = latitudeScale(lat(d.target));
-        var dx = tx- sx,
-            dy = ty - sy,
-            dr = Math.sqrt(dx * dx + dy * dy);
-        return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
-     })
-    // .attr("stroke", "#756bb1")
-    .attr("stroke", function(d) {
-        return color(d.number);
-    })
-    .style("opacity", 0.8)
-    .style("fill", "none")
-    .style("stroke-width", function(d) {
-                return refugeeNumScale(d.number);
-            });
-
+	for (var i = 0; i < refugeeData.length; i++){
+		 links.push({"year": refugeeData[i].year, "number":refugeeData[i].refugeeNumber, "source": refugeeData[i].originCountry, "target": refugeeData[i].destinationCountry});
+	}
+	drawLines(2000, false);
 }
 
+function getPath(pathObject){
+	var sx = longitudeScale(longiFun(pathObject.source)),
+			sy = latitudeScale(latFun(pathObject.source)),
+			tx = longitudeScale(longiFun(pathObject.target)),
+			ty = latitudeScale(latFun(pathObject.target));
+	var dx = tx- sx,
+			dy = ty - sy,
+			dr = Math.sqrt(dx * dx + dy * dy);
+	return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
+}
 
+function drawLines(year, update) {
+	var nodelinks = links.filter(function(link){
+			return link.year == year && link.source!= "Various/Unknown" && link.target !="Various/Unknown" &&
+							link.number >10000 && countries.includes(link.source) && countries.includes(link.target);
+	});
+
+	nodelinks = nodelinks.sort(function(a, b){
+		return a.number - b.number;
+	}).slice(0, 20);
+
+	var refugeeNumExtent = d3.extent(nodelinks, function (d) {
+			return d.number;
+	});
+
+	var refugeeNumScale = d3.scaleSqrt()
+			.domain(refugeeNumExtent)
+			.range([1, 20]);
+
+	color = d3.scaleSqrt()
+	.domain(refugeeNumExtent)
+	.range(["#ffffff","#ca2bff"]);
+
+	if(update){
+		svg.selectAll("path")
+		.data(nodelinks).transition().duration(700)
+		.attr("d", function(d) {
+				return getPath(d);
+		 });
+	}
+	else{
+		svg.selectAll("path")
+		.data(nodelinks)
+		.enter().append("path")
+		.attr("d", function(d) {
+				return getPath(d);
+		 })
+		// .attr("stroke", "#756bb1")
+		.attr("stroke", function(d) {
+				return color(d.number);
+		})
+		.style("opacity", 0.8)
+		.style("fill", "none")
+		.style("stroke-width", 3);
+	}
+}
 
 </script>
 </p>
