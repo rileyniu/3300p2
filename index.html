@@ -106,6 +106,7 @@
 			#panel {
 				display: inline-block;
 				overflow: visible;
+				z-index: -1;
 			}
 
 			#slider-vertical {
@@ -166,9 +167,9 @@
 <p id=“project1”>
 <div id="slider-vertical"></div><br>
 <svg style="display: inline-block" height="600" width="250" id="panel">
-	<text x="20" class = "tags" y="60">Refugee Origin Country:</text>
-	<text x="30" y="90" fill="#bcbcbc" font-family= "DejaVu Sans Mono, monospace" font-size="12pt" id="destCountry" fill="white"></text>
-	<text x="20" class = "tags" y="160">Refugee Destination Countries:</text>
+	<text x="20" id="country" class = "tags" y="60" font-size="20pt" style="display: block; margin: auto;"></text>
+	<text x="20" class = "tags" y="100">Arriving from:</text>
+	<text x="20" class = "tags" y="300">Departing to:</text>
 </svg>
 <svg height="600" width="1060" id="map"> </svg>
 <script>
@@ -235,13 +236,14 @@ d3.queue()
 
 var latitudeScale;
 var longitudeScale;
+var populationScale;
 var color;
 //
 // $("#destCountry").hide();
 
 var textScale = d3.scaleLinear()
 	.domain([0, 10])
-	.range([190, 500]);
+	.range([130, 450]);
 
 //Get latitude of a country
 function latFun(d){
@@ -275,41 +277,70 @@ function refreshCircles(update){
 	if(update){
 		trans = dur;
 	}
-	svg.selectAll("circle")
-	.filter(c => countries_listed.includes(c.country))
-	.moveToFront(this);
+
+	var containedCountries = countryData.filter(function (d){
+		return countries_listed.includes(d.country);
+	});
 
 	svg.selectAll("circle")
 	.filter(c => countries_listed.includes(c.country))
-	.transition().duration(trans)
-	.style("fill", "#42f4bc")
-	.style("opacity", 0.8)
+	.attr("class", "used");
+
+	svg.selectAll(".used").transition().duration(trans).style("fill", "#42f4bc")
+	.style("opacity", 0.6);
 
 	svg.selectAll("circle")
 	.filter(c => !countries_listed.includes(c.country))
-	.moveToBack(this);
+	.attr("class", "notUsed");
 
-	svg.selectAll("circle")
+	var i = 0;
+	$(".used").delay(trans)
+        .queue(function() {
+            $(this).remove();
+						var circleData = containedCountries[i];
+						svg.select("g").selectAll(".used"+i).data([circleData]).enter().append("circle")
+						.on("mouseover", mouseOverCircle)
+						.on("mouseout", mouseOutCircle)
+						.attr("cx", function(d) {
+							return longitudeScale(d.longitude)
+						})
+						.attr("cy", function(d) {
+							return latitudeScale(d.latitude)
+						})
+						.attr("r", function(d) {
+							return populationScale(d.population)
+						})
+						.style("fill", "#42f4bc").style("opacity", 0.6);
+						i=i+1;
+  });
+
+	svg.selectAll(".notUsed")
 	.filter(c => !countries_listed.includes(c.country))
 	.transition().duration(trans)
 	.style("fill", "#34CCFF")
 	.style("opacity", 0.3);
+
 }
 
 //Function called when mouse hovers over circle
 function mouseOverCircle(d) {
 	var couns = []
-	var connected = [];
+	var toCountry = [];
+	var fromCountry = [];
 	//Makes all paths with destination country matching country hovered opaque.
 	d3.selectAll("path").filter(function(p){
-		if(p.source == d.country){
+		var isConnected = false;
+		if(p.source == d.country && !couns.includes(p.target)){
 			couns.push(p.target);
-			connected.push({"destination": p.target, "refugeeNumber": p.number});
-			return true;
+			fromCountry.push({"connectedCountry": p.target, "refugeeNumber": p.number});
+			isConnected = true;
 		}
-		else {
-			return false;
+		if(p.target == d.country && !couns.includes(p.source)) {
+			couns.push(p.source);
+			toCountry.push({"connectedCountry": p.source, "refugeeNumber": p.number});
+			isConnected = true;
 		}
+		return isConnected;
 	})
 	.transition().duration(dur)
 	.style("opacity", 1.0);
@@ -329,7 +360,7 @@ function mouseOverCircle(d) {
 
 	//Makes all paths not connected to highlighted country less opaque
 	d3.selectAll("path").filter(function(p){
-		if(p.source == d.country){
+		if(p.source == d.country || p.target == d.country){
 			return false;
 		}
 		else {
@@ -339,27 +370,42 @@ function mouseOverCircle(d) {
 	.transition().duration(dur)
 	.style("opacity", 0.3);
 
-	panelSvg.select("#destCountry").text(d.country);
-	// $( "#destCountry" ).show(dur);
-	panelSvg.select("#destCountry").attr("visibility", "visible");
+	panelSvg.select("#country").text(d.country);
+	panelSvg.select("#country").attr("visibility", "visible");
 
-	var i = 0;
-	if(connected.length != 0){
-		connected = connected.sort(function(a,b){
-			return a.refugeeNumber - b.refugeeNumber;
-		})
-		var selection = panelSvg.selectAll("#origCountries").data(connected);
-		selection.enter().append("text")
-		.attr("class", "origCountry")
-		.attr("font-family", "DejaVu Sans Mono, monospace")
-		.attr("x", 30)
-		.attr("y", function(d, i) { return textScale(i);})
-		.style("fill", "#c1c1c1")
-		.style("font-size", "13pt")
-		.text(function(oc){
-			return oc.destination+": "+oc.refugeeNumber+ " refugees";
-		}).moveToFront(this.parentElement);
-	}
+	toCountry = toCountry.sort(function(a,b){
+		return a.refugeeNumber - b.refugeeNumber;
+	});
+
+	fromCountry = fromCountry.sort(function(a,b){
+		return a.refugeeNumber - b.refugeeNumber;
+	});
+
+	var selection = panelSvg.selectAll("#origCountries").data(toCountry);
+
+	selection.enter().append("text")
+	.attr("class", "origCountry")
+	.attr("font-family", "DejaVu Sans Mono, monospace")
+	.attr("x", 30)
+	.attr("y", function(d, i) { return textScale(i);})
+	.style("fill", "#c1c1c1")
+	.style("font-size", "13pt")
+	.text(function(oc){
+		return oc.connectedCountry+": "+oc.refugeeNumber+ " refugees";
+	});
+
+	var selection2 = panelSvg.selectAll("#destCountries").data(fromCountry);
+
+	selection2.enter().append("text")
+	.attr("class", "destCountry")
+	.attr("font-family", "DejaVu Sans Mono, monospace")
+	.attr("x", 30)
+	.attr("y", function(d, i) { return textScale(i)+200;})
+	.style("fill", "#c1c1c1")
+	.style("font-size", "13pt")
+	.text(function(oc){
+		return oc.connectedCountry+": "+oc.refugeeNumber+ " refugees";
+	});
 }
 
 //Function called when mouse hovers exists circle
@@ -378,19 +424,21 @@ function mouseOutCircle (d) {
 	.style("opacity", 0.8);
 
 	// $("#destCountry").hide(dur);
-	d3.select("#destCountry").attr("visibility", "hidden");
+	d3.select("#country").attr("visibility", "hidden");
 
 	$(".origCountry").remove();
+	$(".destCountry").remove();
 }
 
 function callback (error, rawCountry, rawRefugee) {
 	refugeeData = rawRefugee;
   countryData = rawCountry.filter(function (c) {
 		return c.latitude !== null && c.longitude !== null && c.population !== null;
+	}).sort(function(a, b){
+		return b.population - a.population;
 	});
 
 	countries = countryData.map(c => c.country);
-	console.log(countryData);
 
 	var longitudeExtent = d3.extent(countryData, function (d) {
 		return d.longitude;
@@ -412,7 +460,7 @@ function callback (error, rawCountry, rawRefugee) {
 		return d.population;
 	});
 
-	var populationScale = d3.scaleSqrt()
+	populationScale = d3.scaleSqrt()
 		.domain(populationExtent)
 		.range([9, 75]);
 
@@ -435,6 +483,12 @@ function callback (error, rawCountry, rawRefugee) {
 	circles.attr("r", function(d) {
 		return populationScale(d.population)
 	});
+
+	circles.style("fill", "#34CCFF");
+
+	circles.attr("pop", function(d){
+		return d.population;
+	})
 
 	for (var i = 0; i < refugeeData.length; i++){
 		 links.push({"year": refugeeData[i].year, "number":refugeeData[i].refugeeNumber, "source": refugeeData[i].originCountry, "target": refugeeData[i].destinationCountry});
@@ -471,17 +525,15 @@ function drawLines(year, update) {
 			.domain(refugeeNumExtent)
 			.range([1, 20]);
 
-	console.log(refugeeNumExtent);
-
-	color = d3.scaleSqrt()
+	color = d3.scaleLog()
 	.domain(refugeeNumExtent)
 	.range(["#ffffff","#7700ff"]);
 
 	countries_listed = []
 	if(update){
 		svg.selectAll("path")
-		.attr('class', 'flowline')
 		.data(nodelinks).transition().duration(700)
+		.attr('class', 'flowline')
 		.attr("d", function(d) {
 				countries_listed.push(d.source);
 				countries_listed.push(d.target);
