@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<script src="https://d3js.org/d3.v4.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Rajdhani|Rubik+Mono+One" rel="stylesheet">
+    	<link href="https://fonts.googleapis.com/css?family=Rajdhani|Rubik+Mono+One" rel="stylesheet">
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -17,8 +17,8 @@
                 font-weight: 200;
                 line-height: 26px;
                 display: flex;
-                justify-content: center;
-                position: fixed;
+                justify-content: center; 
+                margin-top: 30px;
                 color: #C1C1C1;
 
             }
@@ -84,7 +84,7 @@
                 font-style: italic;
                 fill: #8C8C8B;
             }
-            p#footnotes {
+            #footnotes {
                 font-family: 'Rajdhani', sans-serif;
                 font-size: 12px;
                 font-style: normal;
@@ -94,37 +94,67 @@
                 text-decoration: none;
                 color: #C1C1C1;
             }
-						#map {
-								margin: auto;
-								display: inline-block;
-								margin-left: -60px;
-						}
-						.ui-draggable, .ui-droppable {
-								background-position: top;
-						}
+			#map {
+					margin: auto;
+					display: inline-block;
+					margin-left: -60px;
+			}
+			.ui-draggable, .ui-droppable {
+					background-position: top;
+			}
 
-						#panel {
-							display: inline-block;
-							overflow: visible;
-						}
+			#panel {
+				display: inline-block;
+				overflow: visible;
+			}
 
-						#slider-vertical {
-							height:10px;
-							width:1000px;
-							margin: auto;
-							vertical-align: top;
-							background-color: rgba(43, 39, 39, 0.5);
-							border-style: solid;
-							border-color: rgb(188, 188, 188);
-							border-width: 2px;
-							border-radius: 10px;
-						}
+			#slider-vertical {
+				height:10px;
+				width:1000px;
+				margin: auto;
+				vertical-align: top;
+				background-color: rgba(43, 39, 39, 0.5);
+				border-style: solid;
+				border-color: rgb(188, 188, 188);
+				border-width: 2px;
+				border-radius: 10px;
+			}
+
+			/*Reference: http://bl.ocks.org/nitaku/6354551*/
+			.flowline {
+			  fill: none;
+			  opacity: 0.5;
+			  stroke-width: 4;
+			  stroke-dasharray: 10, 4;
+			  animation: flow 2s linear infinite;
+			  -webkit-animation: flow 2s linear infinite;
+			}
+
+			@keyframes flow {
+			  from {
+			    stroke-dashoffset: 14;
+			  }
+
+			  to {
+			    stroke-dashoffset: 0;
+			  }
+			}
+
+			@-webkit-keyframes flow {
+			  from {
+			    stroke-dashoffset: 14;
+			  }
+
+			  to {
+			    stroke-dashoffset: 0;
+			  }
+			}
 		</style>
 	</head>
 
 	<body>
-		<h1>Refugee Movement through Time</h1>
-		<br><br><br>
+		<div style="text-align: center; display: fixed;"><h1>Refugee Movement through Time</h1>
+		<br><br><br></div>
 
 <p id=“project1”>
 <div id="slider-vertical"></div><br>
@@ -446,6 +476,7 @@ function drawLines(year, update) {
 	countries_listed = []
 	if(update){
 		svg.selectAll("path")
+		.attr('class', 'flowline')
 		.data(nodelinks).transition().duration(700)
 		.attr("d", function(d) {
 				countries_listed.push(d.source);
@@ -457,6 +488,7 @@ function drawLines(year, update) {
 		svg.selectAll("path")
 		.data(nodelinks)
 		.enter().append("path")
+		.attr('class', 'flowline')
 		.attr("d", function(d) {
 				countries_listed.push(d.source);
 				countries_listed.push(d.target);
