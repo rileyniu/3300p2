@@ -97,9 +97,15 @@
 						#map {
 								margin: auto;
 								display: inline-block;
+								margin-left: -60px;
 						}
 						.ui-draggable, .ui-droppable {
 								background-position: top;
+						}
+
+						#panel {
+							display: inline-block;
+							overflow: visible;
 						}
 
 						#slider-vertical {
@@ -122,10 +128,13 @@
 
 <p id=“project1”>
 <div id="slider-vertical"></div><br>
+<svg style="display: inline-block" height="600" width="250" id="panel">
+	<text x="20" y="60" font-size="15pt" fill="white">Refugee Destination Country:</text>
+	<text x="50" y="90" font-size="15pt" id="destCountry" fill="white" font-size="15"></text>
+	<text x="20" y="160" font-size="15pt" fill="white">Refugee Origin Countries:</text>
+</svg>
 <svg height="600" width="1060" id="map"> </svg>
-
 <script>
-
 $( function() {
 		$( "#slider-vertical" ).slider({
 			classes: {
@@ -136,10 +145,6 @@ $( function() {
 			min: 1995,
 			max: 2016,
 			value: 2000,
-			slide: function( event, ui ) {
-				var fun = function () {$( "#amount" ).val( ui.value );};
-				setTimeout(fun, 5);
-			}
 		})
 
 .each(function() {
@@ -157,7 +162,6 @@ $( function() {
   }
 
 	$( "#slider-vertical" ).append('<br>');
-
   // Space out values
   for (var i = 1995; i <= 2016; i+=2) {
     var el = $('<label>'+(i)+'</label>').css('position', 'absolute')
@@ -172,16 +176,18 @@ $( function() {
 				endPos = ui.value;
 				var svg = d3.select(map);
 			  drawLines(endPos, true);
-
 		});
 	} );
+
 var svg = d3.select(map);
+var panelSvg = d3.select(panel);
 
 var rawData;
 var refugeeData;
 var countries;
 var countries;
 var links = [];
+var countries_listed = [];
 
 var dur = 500;
 
@@ -193,6 +199,12 @@ d3.queue()
 var latitudeScale;
 var longitudeScale;
 var color;
+//
+// $("#destCountry").hide();
+
+var textScale = d3.scaleLinear()
+	.domain([0, 10])
+	.range([190, 500]);
 
 //Get latitude of a country
 function latFun(d){
@@ -206,14 +218,56 @@ function longiFun(d){
 			return info[0].longitude;
 }
 
+d3.selection.prototype.moveToFront = function() {
+	return this.each(function(){
+  	this.parentNode.appendChild(this);
+  });
+};
+
+d3.selection.prototype.moveToBack = function() {
+        return this.each(function() {
+            var firstChild = this.parentNode.firstChild;
+            if (firstChild) {
+                this.parentNode.insertBefore(this, firstChild);
+            }
+        });
+    };
+
+function refreshCircles(update){
+	var trans = 0;
+	if(update){
+		trans = dur;
+	}
+	svg.selectAll("circle")
+	.filter(c => countries_listed.includes(c.country))
+	.moveToFront(this);
+
+	svg.selectAll("circle")
+	.filter(c => countries_listed.includes(c.country))
+	.transition().duration(trans)
+	.style("fill", "#42f4bc")
+	.style("opacity", 0.8)
+
+	svg.selectAll("circle")
+	.filter(c => !countries_listed.includes(c.country))
+	.moveToBack(this);
+
+	svg.selectAll("circle")
+	.filter(c => !countries_listed.includes(c.country))
+	.transition().duration(trans)
+	.style("fill", "#34CCFF")
+	.style("opacity", 0.3);
+}
+
 //Function called when mouse hovers over circle
 function mouseOverCircle(d) {
+	var couns = []
 	var connected = [];
-
 	//Makes all paths with destination country matching country hovered opaque.
 	d3.selectAll("path").filter(function(p){
 		if(p.target == d.country){
-			connected.push(p.source);
+			couns.push(p.source);
+			connected.push({"sourceCountry": p.source, "refugeeNumber": p.number});
 			return true;
 		}
 		else {
@@ -225,12 +279,12 @@ function mouseOverCircle(d) {
 
 	//Makes all origin countries connected to highlighted destination country opaque
 	d3.selectAll("circle").filter(function(c){
-		return connected.includes(c.country);
-	}).transition().duration(dur).style("opacity", 0.8);
+		return couns.includes(c.country);
+	}).transition().duration(dur).style("opacity", 1.0);
 
 	//Makes all countries not connected to highlighted destination country less opaque
 	d3.selectAll("circle").filter(function(c){
-		return !connected.includes(c.country);
+		return !couns.includes(c.country);
 	}).transition().duration(dur).style("opacity", 0.1);
 
 	//Makes highlighted country opaque
@@ -247,17 +301,55 @@ function mouseOverCircle(d) {
 	})
 	.transition().duration(dur)
 	.style("opacity", 0.3);
+
+	// var trans = dur;
+	// if($("#destCountry").css("display") == "none") {
+	// 	trans = 0;
+	// }
+	panelSvg.select("#destCountry").text(d.country);
+	// $( "#destCountry" ).show(dur);
+	panelSvg.select("#destCountry").attr("visibility", "visible");
+
+	var i = 0;
+	if(connected.length != 0){
+		connected = connected.sort(function(a,b){
+			return a.refugeeNumber - b.refugeeNumber;
+		})
+		var selection = panelSvg.selectAll("#origCountries").data(connected);
+		selection.enter().append("text")
+		.attr("class", "origCountry")
+		.attr("x", 50)
+		.attr("y", function(d, i) { return textScale(i);})
+		.style("fill", "white")
+		.style("font-size", "15pt")
+		.text(function(oc){
+			return oc.sourceCountry+": "+oc.refugeeNumber+ " refugees";
+		});
+	}
 }
 
 //Function called when mouse hovers exists circle
 function mouseOutCircle (d) {
 	//Makes all circles original opacity
-	d3.selectAll("circle").transition().duration(dur).style("opacity", 0.2);
+	svg.selectAll("circle").filter(c => !countries_listed.includes(c.country))
+	.transition().duration(dur).style("opacity", 0.3);
+
+	svg.selectAll("circle")
+	.filter(c => countries_listed.includes(c.country)).transition().duration(dur)
+	.style("opacity", 0.6);
 
 	//Makes all paths original opacity
 	d3.selectAll("path")
 	.transition().duration(dur)
 	.style("opacity", 0.8);
+
+	// $("#destCountry").hide(dur);
+	d3.select("#destCountry").attr("visibility", "hidden");
+
+	$(".origCountry").remove();
+
+	// var allOrigins = panelSvg.selectAll("#origCountry");
+	// allOrigins.attr("visibility", "hidden");
 }
 
 function callback (error, rawCountry, rawRefugee) {
@@ -296,8 +388,6 @@ function callback (error, rawCountry, rawRefugee) {
 	var circles = svg.append('g')
                 .selectAll("circle").data(countryData);
 		circles = circles.enter().append("circle")
-			.style("fill", "#34CCFF")
-			.style("opacity", 0.3)
 			.merge(circles)
       .on("mouseover", mouseOverCircle)
 			.on("mouseout", mouseOutCircle);
@@ -353,10 +443,13 @@ function drawLines(year, update) {
 	.domain(refugeeNumExtent)
 	.range(["#ffffff","#ca2bff"]);
 
+	countries_listed = []
 	if(update){
 		svg.selectAll("path")
 		.data(nodelinks).transition().duration(700)
 		.attr("d", function(d) {
+				countries_listed.push(d.source);
+				countries_listed.push(d.target);
 				return getPath(d);
 		 });
 	}
@@ -365,16 +458,19 @@ function drawLines(year, update) {
 		.data(nodelinks)
 		.enter().append("path")
 		.attr("d", function(d) {
+				countries_listed.push(d.source);
+				countries_listed.push(d.target);
 				return getPath(d);
 		 })
 		// .attr("stroke", "#756bb1")
 		.attr("stroke", function(d) {
 				return color(d.number);
 		})
-		.style("opacity", 0.8)
+		.style("opacity", 0.7)
 		.style("fill", "none")
 		.style("stroke-width", 3);
 	}
+	refreshCircles(update);
 }
 
 </script>
