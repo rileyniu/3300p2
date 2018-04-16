@@ -10,38 +10,54 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<style>
-            h1 {font-family: 'Rubik Mono One', sans-serif;
-                font-size: 24px;
+
+			@font-face {
+				font-family: Druk;
+				src: url(fonts/Druk-MediumItalic.woff);
+			}
+
+			.title{
+				display:block;
+				height:300px;
+			}
+
+			.panel{
+				display:inline-block;
+				height:300px;
+				margin-left: 100px;
+			}
+
+            h1 {font-family: Druk, sans-serif;
+                font-size: 70px;
                 font-style: normal;
                 font-variant: normal;
-                font-weight: 200;
-                line-height: 26px;
+                font-weight: 160;
                 display: flex;
-                justify-content: center;
-                margin-top: 30px;
-                color: #C1C1C1;
+                margin-top: 130px;
+                margin-left: 130px;
+                margin-bottom: 0px;
+                color: 	#ffffff;
 
             }
             h2 {font-family: 'Rajdhani', sans-serif;
-                font-size: 14px;
+                font-size: 18px;
                 font-style: normal;
                 font-variant: normal;
                 font-weight: 80;
                 line-height: 18px;
-                text-align: right;
-                padding-top: 15px;
-                padding-right: 15px;
+                margin-left: 130px;
                 color: #C1C1C1;
             }
-            h3 {font-family: 'Rajdhani', sans-serif;
-                font-size: 14px;
+            h3 {font-family: Druk, sans-serif;
+                font-size: 50px;
                 font-style: normal;
                 font-variant: normal;
-                font-weight: 80;
-                line-height: 18px;
-                text-align: right;
-                padding-right: 15px;
-                color: #C1C1C1;
+                font-weight: 160;
+                display: flex;
+                margin-top: 130px;
+                margin-left: 130px;
+                margin-bottom: 0px;
+                color: 	#ffffff;
             }
             h4 {font-family: 'Rajdhani', sans-serif;
             	font-size: 14px;
@@ -56,7 +72,7 @@
 			body {font-family: 'Rajdhani', sans-serif;
                 text-anchor: 'middle';
                 dominant-baseline: 'central';
-                background: #2B2727;
+                background: #000000;
             }
             .legendSize circle {
                 fill: #CE7602;
@@ -68,9 +84,9 @@
             }
             .textstyle1 {
                 font-family: 'Rajdhani', sans-serif;
-                font-size: 11px;
+                font-size: 18px;
                 font-style: normal;
-                fill: #8C8C8B;
+                color: 	#ffffff;
             }
             .textstyle2 {
                 font-family: 'Rajdhani', sans-serif;
@@ -86,13 +102,14 @@
             }
             #footnotes {
                 font-family: 'Rajdhani', sans-serif;
-                font-size: 12px;
+                font-size: 18px;
                 font-style: normal;
-                color: #8C8C8B;
+                color: 	#ffffff;
             }
             a {
                 text-decoration: none;
-                color: #C1C1C1;
+                color: 	#ffffff;
+                font-weight: bolder;
             }
 			#map {
 					margin: auto;
@@ -127,14 +144,24 @@
 			  opacity: 0.5;
 			  stroke-width: 4;
 			  stroke-dasharray: 10, 4;
-			  animation: flow 2s linear infinite;
-			  -webkit-animation: flow 2s linear infinite;
+			 /* animation: flow 0.5s linear infinite;
+			  -webkit-animation: flow 0.5s linear infinite;*/
+			}
+
+			.tagsName{
+				font-family:  'Rajdhani', sans-serif;
+                font-size: 45px;
+                font-variant: normal;
+                font-weight: italic;
+                display: flex;
+                margin-left: 100px;
+                color: 	#ffffff;
 			}
 
 			.tags {
 				fill: #C1C1C1;
 				font-size: 16pt;
-				font-family: 'DejaVu Sans Mono', monospace;
+				font-family: 'Rajdhani', sans-serif;
 				font-weight: bold;
 			}
 
@@ -161,17 +188,22 @@
 	</head>
 
 	<body>
-		<div style="text-align: center; height:50px;"><h1>Refugee Movement through Time</h1>
-		<br><br><br></div>
+		<div class="title" style="text-align: left;">
+			<h1>MAPPING GLOBAL<br>
+			REFUGEE MOVEMENT THROUGH TIME</h1>
+			<h2>Spring 2018<br> INFO/CS 3300 Project 2</h2>
+
+		</div>
 
 <p id=“project1”>
 <div id="slider-vertical"></div><br>
-<svg style="display: inline-block" height="600" width="250" id="panel">
+<svg style="display: inline-block" height="600" width="200" id="panel">
 	<text x="20" id="country" class = "tags" y="60" font-size="20pt" style="display: block; margin: auto;"></text>
 	<text x="20" class = "tags" y="100">Arriving from:</text>
 	<text x="20" class = "tags" y="300">Departing to:</text>
 </svg>
-<svg height="600" width="1060" id="map"> </svg>
+</div>
+<svg height="570" width="1060" id="map"> </svg>
 <script>
 $( function() {
 		$( "#slider-vertical" ).slider({
@@ -202,8 +234,11 @@ $( function() {
 	$( "#slider-vertical" ).append('<br>');
   // Space out values
   for (var i = 1995; i <= 2016; i+=2) {
-    var el = $('<label>'+(i)+'</label>').css('position', 'absolute')
-		.css('text-align', 'center').css('color', "white")
+    var el = $('<label>'+(i)+'</label>')
+    .css('position', 'absolute')
+		.css('text-align', 'center')
+		.css('font-family','Rajdhani, sans-serif' )
+		.css('color', "white")
 		.css('left', ((i-1995)/vals*100-1.5)+'%').css("margin-top", "10px");
 
 		$( "#slider-vertical" ).append(el);
@@ -238,6 +273,8 @@ var latitudeScale;
 var longitudeScale;
 var populationScale;
 var color;
+var speedScale;
+var speed;
 //
 // $("#destCountry").hide();
 
@@ -529,6 +566,15 @@ function drawLines(year, update) {
 	.domain(refugeeNumExtent)
 	.range(["#ffffff","#7700ff"]);
 
+	speedScale = d3.scaleSqrt()
+		.domain(refugeeNumExtent)
+		.range([2, 0.5])
+
+	function speed (d) {
+		var n =speedScale(d);
+		return n + "s";
+	}
+
 	countries_listed = []
 	if(update){
 		svg.selectAll("path")
@@ -556,7 +602,14 @@ function drawLines(year, update) {
 		})
 		.style("opacity", 0.7)
 		.style("fill", "none")
-		.style("stroke-width", 3);
+		.style("stroke-width", 3)
+		.style("animation-name", "flow")
+		.style("animation-duration", function(d) {
+				return speed(d.number);
+		})
+		.style("animation-timing-function", "linear")
+		.style("animation-iteration-count", "infinite");
+		//  -webkit-animation: flow 0.5s linear infinite;;
 	}
 	refreshCircles(update);
 }
@@ -564,10 +617,25 @@ function drawLines(year, update) {
 </script>
 </p>
 
+<div class="title" style="width:85%; height:100px; padding-bottom: 50px; display: inline-block;">
+<div style="width: 25%; display: inline-block; height:100px; float: left;"><h3>DESCRIPTION</h3></div>
+<div style="margin-left: 25%; height:100px; display: inline-block;">
+<p class="textstyle1">
+<br>In an effort to find out how have global refugee movement develped and changed throughout the history since
+the end of the Cold War, we collected, filtered and mapped global refugee data to a interactive visualization of worldwide movements. ...?
+</p>
+</div>
+</div>
+
+
+<div class="title" style="width:85%; height:100px;">
+<div style="width: 25%; display: inline-block; height:100px; float: left;"><h3>CREDITS</h3></div>
+<div style="margin-left: 25%; height:100px; display: inline-block;">
 <p id="footnotes">
-SOURCES:
 <br>Population data was retreived from <a href="https://data.worldbank.org/indicator/SP.POP.TOTL">World Bank World Development Indicators (2016)</a> and <a href="https://esa.un.org/unpd/wpp/DataQuery/">UN Population Division, World Population Prospects (2016)</a>.
 <br>Fonts used are <a href="https://fonts.google.com/specimen/Rubik+Mono+One">Rubik Mono One</a> by Hubert and Fischer and <a href="https://fonts.google.com/specimen/Rajdhani">Rajdhani</a> by Indian Type Foundry, from Google Fonts.
 </p>
+</div>
+</div>
 </body>
 </html>
