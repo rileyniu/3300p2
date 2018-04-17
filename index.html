@@ -189,7 +189,7 @@
 	<text x="30" class = "tags" y="100">Arriving from:</text>
 	<text x="30" class = "tags" y="300">Departing to:</text>
 </svg>
-<svg height="570" width="1060" id="map"> </svg>
+<svg height="620" width="1060" id="map"> </svg>
 <script>
 // Creating the slider
 $( function() {
@@ -263,7 +263,27 @@ var longitudeScale;
 var populationScale;
 var color;
 var speedScale;
-var speed;
+
+var defs = svg.append("defs");
+
+var linGradient = defs.append("linearGradient")
+	.attr("id", "legendGrad");
+
+linGradient
+	.attr("x1", "0%")
+	.attr("y1", "0%")
+	.attr("x2", "100%")
+	.attr("y2", "0%");
+
+linGradient.append("stop")
+	.attr("offset", "0%")
+	.attr("stop-color", "#ffffff"); //light blue
+
+//Set the color for the end (100%)
+linGradient.append("stop")
+	 .attr("offset", "100%")
+	 .attr("stop-color", "#7700ff"); //dark blue
+
 
 //Scales text in panel on the left side of screen
 var textScale = d3.scaleLinear()
@@ -280,6 +300,31 @@ function latFun(d){
 function longiFun(d){
 			var info = countryData.filter(function(n){return n.country == d;});
 			return info[0].longitude;
+}
+
+function addLegend(){
+	svg.append("rect")
+	.attr("x", 380)
+	.attr("y", 590)
+	.attr("width", 300)
+	.attr("height", 10)
+	.attr("stroke-width", 1)
+	.attr("stroke", "white")
+	.style("fill", "url(#legendGrad)");
+
+	svg.append("text")
+	.attr("x", 280)
+	.attr("y", 600)
+	.attr("font-size", "10pt")
+	.attr("fill", "#ffffff")
+	.text("70000 refugees");
+
+	svg.append("text")
+	.attr("x", 690)
+	.attr("y", 600)
+	.attr("font-size", "10pt")
+	.attr("fill", "#ffffff")
+	.text("2823987 refugees");
 }
 
 //Alter circle colors depending on which circles are origins and destinations and which are not.
@@ -455,6 +500,7 @@ function mouseOutCircle (d) {
 }
 
 function callback (error, rawCountry, rawRefugee) {
+	addLegend();
 	refugeeData = rawRefugee;
 	//Filters out missing data and sorts from greatest to least number of refugees
   countryData = rawCountry.filter(function (c) {
@@ -551,14 +597,14 @@ function drawLines(year, update) {
 		return a.number - b.number;
 	}).reverse().slice(0, 20);
 
+	//Scales refugee number of path to a color (darker color -> more refugees).
+	color = d3.scaleLog()
+	.domain([70000, 2823987])
+	.range(["#ffffff","#7700ff"]);
+
 	var refugeeNumExtent = d3.extent(nodelinks, function (d) {
 			return d.number;
 	});
-
-	//Scales refugee number of path to a color (darker color -> more refugees).
-	color = d3.scaleLog()
-	.domain(refugeeNumExtent)
-	.range(["#ffffff","#7700ff"]);
 
 	//Scales refugee number of path to the speed of animation (faster -> more refugees)
 	speedScale = d3.scaleSqrt()
