@@ -26,84 +26,90 @@
 				height:300px;
 				margin-left: 100px;
 			}
+            h1 {font-family: Druk, sans-serif;
+                font-size: 70px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 160;
+                display: flex;
+                margin-top: 130px;
+                margin-left: 130px;
+                margin-bottom: 0px;
+                color: 	#ffffff;
 
-      h1 {font-family: Druk, sans-serif;
-          font-size: 80px;
-          font-style: normal;
-          font-variant: normal;
-          font-weight: 160;
-          display: flex;
-          margin-top: 40px;
-          margin-left: 130px;
-          margin-bottom: 0px;
-          color: 	#ffffff;
-
-      }
-
-      h3 {font-family: Druk, sans-serif;
-          font-size: 50px;
-          font-style: normal;
-          font-variant: normal;
-          font-weight: 160;
-          display: flex;
-          margin-top: 130px;
-          margin-left: 130px;
-          margin-bottom: 0px;
-          color: 	#ffffff;
-      }
-      h4 {font-family: 'Rajdhani', sans-serif;
-      	font-size: 14px;
-      	font-style: normal;
-      	font-variant: normal;
-      	font-weight: 80;
-      	line-height: 18px;
-      	text-align: left;
-      	padding-left: 35px;
-      	color: #8C8C8B;
-      }
-			body {
-					font-family: 'Rajdhani', sans-serif;
-          text-anchor: 'middle';
-          dominant-baseline: 'central';
-          background: #000000;
-      }
-      .legendSize circle {
-          fill: #CE7602;
-          opacity: 0.2;
-      }
-      .legendSize text {
-          font-size: 11px;
-          fill: #8C8C8B;
-      }
-      .textstyle1 {
-          font-family: 'Rajdhani', sans-serif;
-          font-size: 18px;
-          font-style: normal;
-          color: 	#ffffff;
-      }
-      .textstyle2 {
-          font-family: 'Rajdhani', sans-serif;
-          font-size: 11px;
-          font-style: normal;
-          fill: #C1C1C1;
-      }
-      .textstyle3 {
-          font-family: 'Rajdhani', sans-serif;
-          font-size: 11px;
-          font-style: italic;
-          fill: #8C8C8B;
-      }
-      #footnotes {
-          font-family: 'Rajdhani', sans-serif;
-          font-size: 18px;
-          font-style: normal;
-          color: 	#ffffff;
-      }
-      a {
-          text-decoration: none;
-          color: 	#ffffff;
-          font-weight: bolder;
-      }
+            }
+            h2 {font-family: "Rajdhani", sans-serif;
+                font-size: 18px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 80;
+                line-height: 18px;
+                margin-left: 130px;
+                color: #C1C1C1;
+            }
+            h3 {font-family: Druk, sans-serif;
+                font-size: 50px;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: 160;
+                display: flex;
+                margin-top: 130px;
+                margin-left: 130px;
+                margin-bottom: 0px;
+                color: 	#ffffff;
+            }
+            h4 {font-family: "Rajdhani", sans-serif;
+            	font-size: 14px;
+            	font-style: normal;
+            	font-variant: normal;
+            	font-weight: 80;
+            	line-height: 18px;
+            	text-align: left;
+            	padding-left: 35px;
+            	color: #8C8C8B;
+            }
+			body {font-family: "Rajdhani", sans-serif;
+                text-anchor: "middle";
+                dominant-baseline: "central";
+                background: #000000;
+            }
+            .legendSize circle {
+                fill: #CE7602;
+                opacity: 0.2;
+            }
+            .legendSize text {
+                font-size: 11px;
+                fill: #8C8C8B;
+            }
+            .textstyle1 {
+                font-family: "Rajdhani", sans-serif;
+                font-size: 20px;
+                font-style: normal;
+                color: #C1C1C1;
+            }
+            .textstyle2 {
+                font-family: "Rajdhani", sans-serif;
+                font-size: 11px;
+                font-style: normal;
+                fill: #C1C1C1;
+            }
+            .textstyle3 {
+                font-family: "Rajdhani", sans-serif;
+                font-size: 11px;
+                font-style: italic;
+                fill: #8C8C8B;
+            }
+            #footnotes {
+                font-family: "Rajdhani", sans-serif;
+                font-size: 20px;
+                font-style: normal;
+                color: 	#C1C1C1;
+            }
+            a {
+                text-decoration: none;
+                color: 	#ffffff;
+                font-weight: bolder;
+            }
 
 			#map {
 					margin: auto;
@@ -143,10 +149,15 @@
 			}
 
 			.tags {
+				fill: #ffffff;
+				font-size: 18pt;
+				font-family: "Rajdhani", sans-serif;
+				font-weight: bold;
+			}
+			.tags1 {
 				fill: #C1C1C1;
 				font-size: 16pt;
-				font-family: 'Rajdhani', sans-serif;
-				font-weight: bold;
+				font-family: "Rajdhani", sans-serif;
 			}
 
 			@keyframes flow {
@@ -186,8 +197,8 @@
 <div id="slider-vertical"></div><br><br><br>
 <svg style="display: inline-block" height="600" width="200" id="panel">
 	<text x="30" id="country" class = "tags" y="60" style="display: block; margin: auto;"></text>
-	<text x="30" class = "tags" y="100">Arriving from:</text>
-	<text x="30" class = "tags" y="300">Departing to:</text>
+	<text x="30" class = "tags1" y="100">Arriving from:</text>
+	<text x="30" class = "tags1" y="300">Departing to:</text>
 </svg>
 <svg height="570" width="1060" id="map"> </svg>
 <script>
@@ -208,26 +219,26 @@ $( function() {
   var vals = 21;
 	//Creates ticks for slider
   for (var i = 0; i <= vals ; i++) {
-      var tick = $('<div class="tick ui-widget-content"></div>').css('position', 'absolute')
-			.css('display', 'inline-block')
-			.css('left', (i/vals*100-0.1) +  '%')
-			.css('top', 100 +  '%')
-			.css('width', '2px')
-			.css('height', '16px')
-			.css('color', 'white');
+      var tick = $("<div class='tick ui-widget-content'></div>").css("position", "absolute")
+			.css("display", "inline-block")
+			.css("left", (i/vals*100-0.1) +  "%")
+			.css("top", 100 +  "%")
+			.css("width", "2px")
+			.css("height", "16px")
+			.css("color", "white");
 			$( "#slider-vertical" ).append(tick);
   }
 
 	//Creates labels for slider
-	$( "#slider-vertical" ).append('<br>');
+	$( "#slider-vertical" ).append("<br>");
   // Space out values
   for (var i = 1995; i <= 2016; i+=2) {
-    var el = $('<label>'+(i)+'</label>')
-    .css('position', 'absolute')
-		.css('text-align', 'center')
-		.css('font-family','Rajdhani, sans-serif' )
-		.css('color', "white")
-		.css('left', ((i-1995)/vals*100-1.5)+'%').css("margin-top", "10px");
+    var el = $("<label>"+(i)+"</label>")
+    .css("position", "absolute")
+		.css("text-align", "center")
+		.css("font-family","Rajdhani, sans-serif" )
+		.css("color", "white")
+		.css("left", ((i-1995)/vals*100-1.5)+"%").css("margin-top", "10px");
 
 		$( "#slider-vertical" ).append(el);
   }
@@ -407,11 +418,11 @@ function mouseOverCircle(d) {
 	var selection = panelSvg.selectAll("#origCountries").data(toCountry);
 	selection.enter().append("text")
 	.attr("class", "origCountry")
-	.attr("font-family", "DejaVu Sans Mono, monospace")
+	.attr("font-family", "Rajdhani, sans-serif")
 	.attr("x", 40)
 	.attr("y", function(d, i) { return textScale(i);})
-	.style("fill", "#c1c1c1")
-	.style("font-size", "13pt")
+	.style("fill", "#ffffff")
+	.style("font-size", "16pt")
 	.text(function(oc){
 		return oc.connectedCountry+": "+oc.refugeeNumber+ " refugees";
 	});
@@ -421,11 +432,11 @@ function mouseOverCircle(d) {
 	var selection2 = panelSvg.selectAll("#destCountries").data(fromCountry);
 	selection2.enter().append("text")
 	.attr("class", "destCountry")
-	.attr("font-family", "DejaVu Sans Mono, monospace")
+	.attr("font-family", "Rajdhani, sans-serif")
 	.attr("x", 40)
 	.attr("y", function(d, i) { return textScale(i)+200;})
-	.style("fill", "#c1c1c1")
-	.style("font-size", "13pt")
+	.style("fill", "#ffffff")
+	.style("font-size", "16pt")
 	.text(function(oc){
 		return oc.connectedCountry+": "+oc.refugeeNumber+ " refugees";
 	});
@@ -494,7 +505,7 @@ function callback (error, rawCountry, rawRefugee) {
 		.range([9, 75]);
 
 	//Appends circles for all countries
-	var circles = svg.append('g')
+	var circles = svg.append("g")
                 .selectAll("circle").data(countryData);
 		circles = circles.enter().append("circle")
 			.merge(circles)
@@ -575,7 +586,7 @@ function drawLines(year, update) {
 	if(update){
 		svg.selectAll("path")
 		.data(nodelinks).transition().duration(700)
-		.attr('class', 'flowline')
+		.attr("class", "flowline")
 		.attr("d", function(d) {
 				countries_listed.push(d.source);
 				countries_listed.push(d.target);
@@ -586,7 +597,7 @@ function drawLines(year, update) {
 		svg.selectAll("path")
 		.data(nodelinks)
 		.enter().append("path")
-		.attr('class', 'flowline')
+		.attr("class", "flowline")
 		.attr("d", function(d) {
 				countries_listed.push(d.source);
 				countries_listed.push(d.target);
@@ -611,25 +622,34 @@ function drawLines(year, update) {
 </script>
 </p>
 
-<div class="title" style="width:85%; height:100px; padding-bottom: 50px; display: inline-block;">
-<div style="width: 25%; display: inline-block; height:100px; float: left;"><h3>DESCRIPTION</h3></div>
-<div style="margin-left: 30%; margin-top:-1%; height:100px; display: inline-block;">
+
+<div class="title" style="width:90%; height:160px; padding-bottom: 50px; display: inline-block;">
+<div style="width: 25%; display: inline-block; height:90px; float: left;"><h3>DESCRIPTION</h3></div>
+<div style="margin-left: 25%; height:100px; display: inline-block;">
 <p class="textstyle1">
 <br>In an effort to find out how have global refugee movement develped and changed throughout the history since
-the end of the Cold War, we collected, filtered and mapped global refugee data to a interactive visualization of worldwide movements. ...?
+the end of the Cold War, we collected, filtered and mapped a global refugee dataset from 1995 to 2016 to produce this interactive visualization of top 20 movement path with highest number of refugees over this historical period. 
+<br>At the same time, we decided to explore the potential relation between refugee paths and total population of the countries, by mapping the total population to the radius of circles that represent all the countries, based on  their center coordinates in the world map.
 </p>
 </div>
 </div>
 
 
-<div class="title" style="width:85%; height:100px;">
-<div style="width: 25%; display: inline-block; height:100px; float: left;"><h3>CREDITS</h3></div>
-<div style="margin-left: 30%; margin-top:-1%; height:100px; display: inline-block;">
+
+<div class="title" style="width:90%; height:300px;">
+<div style="width: 25%; display: inline-block; height:90px; float: left;"><h3>CREDITS</h3></div>
+<div style="margin-left: 25%; height:100px; display: inline-block;">
+
 <p id="footnotes">
 <br>Population data was retreived from <a href="https://data.worldbank.org/indicator/SP.POP.TOTL">World Bank World Development Indicators (2016)</a> and <a href="https://esa.un.org/unpd/wpp/DataQuery/">UN Population Division, World Population Prospects (2016)</a>.
 <br>Fonts used are <a href="https://fonts.google.com/specimen/Rubik+Mono+One">Rubik Mono One</a> by Hubert and Fischer and <a href="https://fonts.google.com/specimen/Rajdhani">Rajdhani</a> by Indian Type Foundry, from Google Fonts.
 </p>
 </div>
+</div>
+
+<div>
+<h2>Authors: Danyal Motiwalla (djm453), Riley Niu (hn263), Xinyu Zhao (xz293)</h2>
+</p>
 </div>
 </body>
 </html>
