@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<script src="https://d3js.org/d3.v4.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
-    	<link href="https://fonts.googleapis.com/css?family=Rajdhani|Rubik+Mono+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rajdhani|Rubik+Mono+One" rel="stylesheet">
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -27,95 +27,90 @@
 				margin-left: 100px;
 			}
 
-            h1 {font-family: Druk, sans-serif;
-                font-size: 70px;
-                font-style: normal;
-                font-variant: normal;
-                font-weight: 160;
-                display: flex;
-                margin-top: 130px;
-                margin-left: 130px;
-                margin-bottom: 0px;
-                color: 	#ffffff;
+      h1 {font-family: Druk, sans-serif;
+          font-size: 80px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: 160;
+          display: flex;
+          margin-top: 40px;
+          margin-left: 130px;
+          margin-bottom: 0px;
+          color: 	#ffffff;
 
-            }
-            h2 {font-family: 'Rajdhani', sans-serif;
-                font-size: 18px;
-                font-style: normal;
-                font-variant: normal;
-                font-weight: 80;
-                line-height: 18px;
-                margin-left: 130px;
-                color: #C1C1C1;
-            }
-            h3 {font-family: Druk, sans-serif;
-                font-size: 50px;
-                font-style: normal;
-                font-variant: normal;
-                font-weight: 160;
-                display: flex;
-                margin-top: 130px;
-                margin-left: 130px;
-                margin-bottom: 0px;
-                color: 	#ffffff;
-            }
-            h4 {font-family: 'Rajdhani', sans-serif;
-            	font-size: 14px;
-            	font-style: normal;
-            	font-variant: normal;
-            	font-weight: 80;
-            	line-height: 18px;
-            	text-align: left;
-            	padding-left: 35px;
-            	color: #8C8C8B;
-            }
-			body {font-family: 'Rajdhani', sans-serif;
-                text-anchor: 'middle';
-                dominant-baseline: 'central';
-                background: #000000;
-            }
-            .legendSize circle {
-                fill: #CE7602;
-                opacity: 0.2;
-            }
-            .legendSize text {
-                font-size: 11px;
-                fill: #8C8C8B;
-            }
-            .textstyle1 {
-                font-family: 'Rajdhani', sans-serif;
-                font-size: 18px;
-                font-style: normal;
-                color: 	#ffffff;
-            }
-            .textstyle2 {
-                font-family: 'Rajdhani', sans-serif;
-                font-size: 11px;
-                font-style: normal;
-                fill: #C1C1C1;
-            }
-            .textstyle3 {
-                font-family: 'Rajdhani', sans-serif;
-                font-size: 11px;
-                font-style: italic;
-                fill: #8C8C8B;
-            }
-            #footnotes {
-                font-family: 'Rajdhani', sans-serif;
-                font-size: 18px;
-                font-style: normal;
-                color: 	#ffffff;
-            }
-            a {
-                text-decoration: none;
-                color: 	#ffffff;
-                font-weight: bolder;
-            }
+      }
+
+      h3 {font-family: Druk, sans-serif;
+          font-size: 50px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: 160;
+          display: flex;
+          margin-top: 130px;
+          margin-left: 130px;
+          margin-bottom: 0px;
+          color: 	#ffffff;
+      }
+      h4 {font-family: 'Rajdhani', sans-serif;
+      	font-size: 14px;
+      	font-style: normal;
+      	font-variant: normal;
+      	font-weight: 80;
+      	line-height: 18px;
+      	text-align: left;
+      	padding-left: 35px;
+      	color: #8C8C8B;
+      }
+			body {
+					font-family: 'Rajdhani', sans-serif;
+          text-anchor: 'middle';
+          dominant-baseline: 'central';
+          background: #000000;
+      }
+      .legendSize circle {
+          fill: #CE7602;
+          opacity: 0.2;
+      }
+      .legendSize text {
+          font-size: 11px;
+          fill: #8C8C8B;
+      }
+      .textstyle1 {
+          font-family: 'Rajdhani', sans-serif;
+          font-size: 18px;
+          font-style: normal;
+          color: 	#ffffff;
+      }
+      .textstyle2 {
+          font-family: 'Rajdhani', sans-serif;
+          font-size: 11px;
+          font-style: normal;
+          fill: #C1C1C1;
+      }
+      .textstyle3 {
+          font-family: 'Rajdhani', sans-serif;
+          font-size: 11px;
+          font-style: italic;
+          fill: #8C8C8B;
+      }
+      #footnotes {
+          font-family: 'Rajdhani', sans-serif;
+          font-size: 18px;
+          font-style: normal;
+          color: 	#ffffff;
+      }
+      a {
+          text-decoration: none;
+          color: 	#ffffff;
+          font-weight: bolder;
+      }
+
 			#map {
 					margin: auto;
 					display: inline-block;
 					margin-left: -70px;
 			}
+
 			.ui-draggable, .ui-droppable {
 					background-position: top;
 			}
@@ -130,6 +125,7 @@
 				height:10px;
 				width:1000px;
 				margin: auto;
+				margin-top: -70px;
 				vertical-align: top;
 				background-color: rgba(43, 39, 39, 0.5);
 				border-style: solid;
@@ -144,18 +140,6 @@
 			  opacity: 0.5;
 			  stroke-width: 4;
 			  stroke-dasharray: 10, 4;
-			 /* animation: flow 0.5s linear infinite;
-			  -webkit-animation: flow 0.5s linear infinite;*/
-			}
-
-			.tagsName{
-				font-family:  'Rajdhani', sans-serif;
-                font-size: 45px;
-                font-variant: normal;
-                font-weight: italic;
-                display: flex;
-                margin-left: 100px;
-                color: 	#ffffff;
 			}
 
 			.tags {
@@ -184,6 +168,10 @@
 			    stroke-dashoffset: 0;
 			  }
 			}
+
+			#country {
+				font-size: 30pt !important;
+			}
 		</style>
 	</head>
 
@@ -191,20 +179,19 @@
 		<div class="title" style="text-align: left;">
 			<h1>MAPPING GLOBAL<br>
 			REFUGEE MOVEMENT THROUGH TIME</h1>
-			<h2>Spring 2018<br> INFO/CS 3300 Project 2</h2>
 
 		</div>
 
 <p id=“project1”>
-<div id="slider-vertical"></div><br>
+<div id="slider-vertical"></div><br><br><br>
 <svg style="display: inline-block" height="600" width="200" id="panel">
-	<text x="20" id="country" class = "tags" y="60" font-size="20pt" style="display: block; margin: auto;"></text>
-	<text x="20" class = "tags" y="100">Arriving from:</text>
-	<text x="20" class = "tags" y="300">Departing to:</text>
+	<text x="30" id="country" class = "tags" y="60" style="display: block; margin: auto;"></text>
+	<text x="30" class = "tags" y="100">Arriving from:</text>
+	<text x="30" class = "tags" y="300">Departing to:</text>
 </svg>
-</div>
 <svg height="570" width="1060" id="map"> </svg>
 <script>
+// Creating the slider
 $( function() {
 		$( "#slider-vertical" ).slider({
 			classes: {
@@ -219,7 +206,7 @@ $( function() {
 
 .each(function() {
   var vals = 21;
-
+	//Creates ticks for slider
   for (var i = 0; i <= vals ; i++) {
       var tick = $('<div class="tick ui-widget-content"></div>').css('position', 'absolute')
 			.css('display', 'inline-block')
@@ -231,6 +218,7 @@ $( function() {
 			$( "#slider-vertical" ).append(tick);
   }
 
+	//Creates labels for slider
 	$( "#slider-vertical" ).append('<br>');
   // Space out values
   for (var i = 1995; i <= 2016; i+=2) {
@@ -245,7 +233,9 @@ $( function() {
   }
 
 });
-	$( "#slider-vertical" ).on("slidechange", function(event, ui) {
+
+//When slider changes, redraw paths and recolor circles
+$( "#slider-vertical" ).on("slidechange", function(event, ui) {
 				endPos = ui.value;
 				var svg = d3.select(map);
 			  drawLines(endPos, true);
@@ -258,11 +248,10 @@ var panelSvg = d3.select(panel);
 var rawData;
 var refugeeData;
 var countries;
-var countries;
 var links = [];
 var countries_listed = [];
 
-var dur = 500;
+var dur = 300;
 
 d3.queue()
 .defer(d3.json, "countryData.json")
@@ -275,9 +264,8 @@ var populationScale;
 var color;
 var speedScale;
 var speed;
-//
-// $("#destCountry").hide();
 
+//Scales text in panel on the left side of screen
 var textScale = d3.scaleLinear()
 	.domain([0, 10])
 	.range([130, 450]);
@@ -294,43 +282,35 @@ function longiFun(d){
 			return info[0].longitude;
 }
 
-d3.selection.prototype.moveToFront = function() {
-	return this.each(function(){
-  	this.parentNode.appendChild(this);
-  });
-};
-
-d3.selection.prototype.moveToBack = function() {
-        return this.each(function() {
-            var firstChild = this.parentNode.firstChild;
-            if (firstChild) {
-                this.parentNode.insertBefore(this, firstChild);
-            }
-        });
-    };
-
+//Alter circle colors depending on which circles are origins and destinations and which are not.
 function refreshCircles(update){
 	var trans = 0;
 	if(update){
 		trans = dur;
 	}
 
+	//Countries that are origins and destinations
 	var containedCountries = countryData.filter(function (d){
 		return countries_listed.includes(d.country);
 	});
 
+	//Sets the origin and destination circles to class "used"
 	svg.selectAll("circle")
 	.filter(c => countries_listed.includes(c.country))
 	.attr("class", "used");
 
+	//Changes all used circle color to green and opacity to 0.6
 	svg.selectAll(".used").transition().duration(trans).style("fill", "#42f4bc")
 	.style("opacity", 0.6);
 
+	//Sets non origin and destination circles to class "notUsed"
 	svg.selectAll("circle")
 	.filter(c => !countries_listed.includes(c.country))
 	.attr("class", "notUsed");
 
 	var i = 0;
+	//Removes all used circles and readds them to bring them to front of svg so they have
+	//priority when hovering over the circles
 	$(".used").delay(trans)
         .queue(function() {
             $(this).remove();
@@ -351,6 +331,7 @@ function refreshCircles(update){
 						i=i+1;
   });
 
+	//Changes all unused circle color to blue and opacity to 0.3
 	svg.selectAll(".notUsed")
 	.filter(c => !countries_listed.includes(c.country))
 	.transition().duration(trans)
@@ -364,7 +345,7 @@ function mouseOverCircle(d) {
 	var couns = []
 	var toCountry = [];
 	var fromCountry = [];
-	//Makes all paths with destination country matching country hovered opaque.
+	//Makes all paths connected to country the mouse is hovering more opaque.
 	d3.selectAll("path").filter(function(p){
 		var isConnected = false;
 		if(p.source == d.country && !couns.includes(p.target)){
@@ -382,7 +363,7 @@ function mouseOverCircle(d) {
 	.transition().duration(dur)
 	.style("opacity", 1.0);
 
-	//Makes all origin countries connected to highlighted destination country opaque
+	//Makes all countries connected to highlighted destination country more opaque
 	d3.selectAll("circle").filter(function(c){
 		return couns.includes(c.country);
 	}).transition().duration(dur).style("opacity", 0.9);
@@ -407,23 +388,27 @@ function mouseOverCircle(d) {
 	.transition().duration(dur)
 	.style("opacity", 0.3);
 
+	//Sets country label (usually hidden if no country is being hovered) to current country
 	panelSvg.select("#country").text(d.country);
 	panelSvg.select("#country").attr("visibility", "visible");
 
+	//Sorts countries that send refugees to current country by refugee number
 	toCountry = toCountry.sort(function(a,b){
 		return a.refugeeNumber - b.refugeeNumber;
 	});
 
+	//Sorts countries that are destinations of current country refugees by refugee number
 	fromCountry = fromCountry.sort(function(a,b){
 		return a.refugeeNumber - b.refugeeNumber;
 	});
 
+	//Adds text to left panel that includes names of all countries that send refugees to current country
+	// as well as number of refugees sent
 	var selection = panelSvg.selectAll("#origCountries").data(toCountry);
-
 	selection.enter().append("text")
 	.attr("class", "origCountry")
 	.attr("font-family", "DejaVu Sans Mono, monospace")
-	.attr("x", 30)
+	.attr("x", 40)
 	.attr("y", function(d, i) { return textScale(i);})
 	.style("fill", "#c1c1c1")
 	.style("font-size", "13pt")
@@ -431,12 +416,13 @@ function mouseOverCircle(d) {
 		return oc.connectedCountry+": "+oc.refugeeNumber+ " refugees";
 	});
 
+	//Adds text to left panel that includes names of all countries that are destinations of
+	//current country refugees and the number of refugees
 	var selection2 = panelSvg.selectAll("#destCountries").data(fromCountry);
-
 	selection2.enter().append("text")
 	.attr("class", "destCountry")
 	.attr("font-family", "DejaVu Sans Mono, monospace")
-	.attr("x", 30)
+	.attr("x", 40)
 	.attr("y", function(d, i) { return textScale(i)+200;})
 	.style("fill", "#c1c1c1")
 	.style("font-size", "13pt")
@@ -447,7 +433,7 @@ function mouseOverCircle(d) {
 
 //Function called when mouse hovers exists circle
 function mouseOutCircle (d) {
-	//Makes all circles original opacity
+	//Sets all circles to original opacity
 	svg.selectAll("circle").filter(c => !countries_listed.includes(c.country))
 	.transition().duration(dur).style("opacity", 0.3);
 
@@ -460,27 +446,31 @@ function mouseOutCircle (d) {
 	.transition().duration(dur)
 	.style("opacity", 0.8);
 
-	// $("#destCountry").hide(dur);
+	//Hides country name
 	d3.select("#country").attr("visibility", "hidden");
 
+	//Removes list of origin and destination countries
 	$(".origCountry").remove();
 	$(".destCountry").remove();
 }
 
 function callback (error, rawCountry, rawRefugee) {
 	refugeeData = rawRefugee;
+	//Filters out missing data and sorts from greatest to least number of refugees
   countryData = rawCountry.filter(function (c) {
 		return c.latitude !== null && c.longitude !== null && c.population !== null;
 	}).sort(function(a, b){
 		return b.population - a.population;
 	});
 
+	//Gets all country names
 	countries = countryData.map(c => c.country);
 
 	var longitudeExtent = d3.extent(countryData, function (d) {
 		return d.longitude;
 	});
 
+	//Scales longitudes
 	longitudeScale = d3.scaleLinear()
 		.domain(longitudeExtent)
 		.range([50, 1050]);
@@ -489,6 +479,7 @@ function callback (error, rawCountry, rawRefugee) {
 		return d.latitude;
 	});
 
+	//Scales latitudes
 	latitudeScale = d3.scaleLinear()
 		.domain(latitudeExtent)
 		.range([550, 50]);
@@ -497,11 +488,12 @@ function callback (error, rawCountry, rawRefugee) {
 		return d.population;
 	});
 
+	//Scales population
 	populationScale = d3.scaleSqrt()
 		.domain(populationExtent)
 		.range([9, 75]);
 
-
+	//Appends circles for all countries
 	var circles = svg.append('g')
                 .selectAll("circle").data(countryData);
 		circles = circles.enter().append("circle")
@@ -527,12 +519,14 @@ function callback (error, rawCountry, rawRefugee) {
 		return d.population;
 	})
 
+	//Creates path objects used for the paths from country to country
 	for (var i = 0; i < refugeeData.length; i++){
 		 links.push({"year": refugeeData[i].year, "number":refugeeData[i].refugeeNumber, "source": refugeeData[i].originCountry, "target": refugeeData[i].destinationCountry});
 	}
 	drawLines(2000, false);
 }
 
+//Gets a path from a pathobject
 function getPath(pathObject){
 	var sx = longitudeScale(longiFun(pathObject.source)),
 			sy = latitudeScale(latFun(pathObject.source)),
@@ -544,12 +538,15 @@ function getPath(pathObject){
 	return "M" + sx + "," + sy + "A" + dr + "," + dr + " 0 0,1 " + tx + "," + ty;
 }
 
+//Draws paths and refreshes circle colors
 function drawLines(year, update) {
+	//Gets links corresponding to year input and filters out missing data
 	var nodelinks = links.filter(function(link){
 			return link.year == year && link.source!= "Various/Unknown" && link.target !="Various/Unknown" &&
 							link.number >10000 && countries.includes(link.source) && countries.includes(link.target);
 	});
 
+	//Sorts paths from greatest number refugees to least and gets first 20.
 	nodelinks = nodelinks.sort(function(a, b){
 		return a.number - b.number;
 	}).reverse().slice(0, 20);
@@ -558,14 +555,12 @@ function drawLines(year, update) {
 			return d.number;
 	});
 
-	var refugeeNumScale = d3.scaleSqrt()
-			.domain(refugeeNumExtent)
-			.range([1, 20]);
-
+	//Scales refugee number of path to a color (darker color -> more refugees).
 	color = d3.scaleLog()
 	.domain(refugeeNumExtent)
 	.range(["#ffffff","#7700ff"]);
 
+	//Scales refugee number of path to the speed of animation (faster -> more refugees)
 	speedScale = d3.scaleSqrt()
 		.domain(refugeeNumExtent)
 		.range([2, 0.5])
@@ -575,6 +570,7 @@ function drawLines(year, update) {
 		return n + "s";
 	}
 
+	//Updates or creates new paths on map
 	countries_listed = []
 	if(update){
 		svg.selectAll("path")
@@ -596,7 +592,6 @@ function drawLines(year, update) {
 				countries_listed.push(d.target);
 				return getPath(d);
 		 })
-		// .attr("stroke", "#756bb1")
 		.attr("stroke", function(d) {
 				return color(d.number);
 		})
@@ -609,7 +604,6 @@ function drawLines(year, update) {
 		})
 		.style("animation-timing-function", "linear")
 		.style("animation-iteration-count", "infinite");
-		//  -webkit-animation: flow 0.5s linear infinite;;
 	}
 	refreshCircles(update);
 }
@@ -619,7 +613,7 @@ function drawLines(year, update) {
 
 <div class="title" style="width:85%; height:100px; padding-bottom: 50px; display: inline-block;">
 <div style="width: 25%; display: inline-block; height:100px; float: left;"><h3>DESCRIPTION</h3></div>
-<div style="margin-left: 25%; height:100px; display: inline-block;">
+<div style="margin-left: 30%; margin-top:-1%; height:100px; display: inline-block;">
 <p class="textstyle1">
 <br>In an effort to find out how have global refugee movement develped and changed throughout the history since
 the end of the Cold War, we collected, filtered and mapped global refugee data to a interactive visualization of worldwide movements. ...?
@@ -630,7 +624,7 @@ the end of the Cold War, we collected, filtered and mapped global refugee data t
 
 <div class="title" style="width:85%; height:100px;">
 <div style="width: 25%; display: inline-block; height:100px; float: left;"><h3>CREDITS</h3></div>
-<div style="margin-left: 25%; height:100px; display: inline-block;">
+<div style="margin-left: 30%; margin-top:-1%; height:100px; display: inline-block;">
 <p id="footnotes">
 <br>Population data was retreived from <a href="https://data.worldbank.org/indicator/SP.POP.TOTL">World Bank World Development Indicators (2016)</a> and <a href="https://esa.un.org/unpd/wpp/DataQuery/">UN Population Division, World Population Prospects (2016)</a>.
 <br>Fonts used are <a href="https://fonts.google.com/specimen/Rubik+Mono+One">Rubik Mono One</a> by Hubert and Fischer and <a href="https://fonts.google.com/specimen/Rajdhani">Rajdhani</a> by Indian Type Foundry, from Google Fonts.
